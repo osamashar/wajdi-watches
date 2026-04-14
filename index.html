@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>وجدي الدُبعي | لأرقى الساعات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#D4AF37;--gold-light:#E8CC6A;--gold-dark:#A8881A;--gold-glow:rgba(212,175,55,0.22);
+  --bg:#0A0A0A;--bg2:#111111;--bg3:#1A1A1A;--bg4:#222222;
+  --surface:#141414;--surface2:#1E1E1E;
+  --border:rgba(212,175,55,0.18);--border2:rgba(255,255,255,0.06);
+  --text:#F0EAD6;--text2:#B0A080;--text3:#6A5F48;
+  --success:#4CAF50;--warning:#FF9800;--error:#F44336;--red:#e74c3c;
+  --radius:16px;--shadow:0 8px 32px rgba(0,0,0,0.6);--shadow-gold:0 4px 24px rgba(212,175,55,0.2);
+  --transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
+  --font-ar:'Noto Naskh Arabic','Amiri',serif;--font-d:'Playfair Display','Amiri',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--font-ar);color:var(--text);direction:rtl;}
+
+/* SPLASH */
+#splash{position:fixed;inset:0;z-index:9999;background:linear-gradient(160deg,#0A0A0A,#1a1400,#0A0A0A);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s ease,transform .8s ease;}
+#splash.hide{opacity:0;transform:scale(1.05);pointer-events:none;}
+.splash-ring{width:140px;height:140px;border:2px solid transparent;border-top-color:var(--gold);border-right-color:var(--gold-light);border-radius:50%;animation:spinRing 1.5s linear infinite;position:relative;margin-bottom:24px;}
+.splash-ring::after{content:'';position:absolute;inset:12px;border:1px solid rgba(212,175,55,0.3);border-radius:50%;animation:spinRing 2s linear infinite reverse;}
+.splash-clock{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:48px;}
+@keyframes spinRing{to{transform:rotate(360deg);}}
+.splash-logo{font-family:var(--font-d);font-size:28px;font-weight:700;color:var(--gold);letter-spacing:2px;text-align:center;margin-bottom:8px;text-shadow:0 0 30px rgba(212,175,55,0.5);}
+.splash-sub{font-size:13px;color:var(--text2);letter-spacing:1px;opacity:0;animation:fadeIn 1s ease .5s forwards;}
+@keyframes fadeIn{to{opacity:1;}}
+
+/* APP */
+#app{height:100vh;display:flex;flex-direction:column;background:var(--bg);max-width:430px;margin:0 auto;position:relative;overflow:hidden;}
+
+/* HEADER */
+.app-header{background:linear-gradient(180deg,var(--bg2),rgba(10,10,10,.95));backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 16px;height:64px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:100;flex-shrink:0;}
+.header-logo{font-family:var(--font-d);font-size:18px;font-weight:700;color:var(--gold);letter-spacing:1px;}
+.header-logo span{display:block;font-size:10px;color:var(--text2);font-family:var(--font-ar);letter-spacing:2px;}
+.header-actions{display:flex;gap:8px;align-items:center;}
+.icon-btn{width:40px;height:40px;border:none;background:var(--bg3);border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:18px;transition:var(--transition);position:relative;}
+.icon-btn:active{transform:scale(.92);background:var(--bg4);}
+.icon-btn.gold{color:var(--gold);}
+.badge{position:absolute;top:-4px;right:-4px;background:var(--gold);color:#000;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:monospace;}
+
+/* SCREENS */
+.screen-container{flex:1;overflow:hidden;position:relative;}
+.screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;opacity:0;pointer-events:none;transform:translateX(-20px);transition:opacity .3s ease,transform .3s ease;padding-bottom:80px;}
+.screen.active{opacity:1;pointer-events:all;transform:translateX(0);}
+.screen::-webkit-scrollbar{width:0;}
+
+/* BOTTOM NAV */
+.bottom-nav{background:var(--bg2);border-top:1px solid var(--border);padding:8px 8px 20px;display:flex;gap:4px;flex-shrink:0;position:relative;z-index:100;}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:none;background:transparent;cursor:pointer;padding:8px 4px;border-radius:12px;transition:var(--transition);}
+.nav-btn .nav-icon{font-size:22px;transition:var(--transition);}
+.nav-btn .nav-label{font-size:10px;color:var(--text3);font-family:var(--font-ar);transition:var(--transition);}
+.nav-btn.active .nav-icon{filter:drop-shadow(0 0 6px var(--gold));}
+.nav-btn.active .nav-label{color:var(--gold);}
+.nav-btn:active{transform:scale(.9);}
+
+/* SEARCH BAR */
+.search-bar{margin:16px;position:relative;}
+.search-input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 16px 12px 48px;color:var(--text);font-family:var(--font-ar);font-size:14px;outline:none;transition:var(--transition);direction:rtl;}
+.search-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-glow);}
+.search-input::placeholder{color:var(--text3);}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--text3);}
+
+/* SECTION */
+.section-header{display:flex;justify-content:space-between;align-items:center;padding:0 16px;margin-bottom:14px;}
+.section-title{font-size:18px;font-weight:700;color:var(--text);font-family:var(--font-ar);position:relative;}
+.section-title::after{content:'';position:absolute;bottom:-4px;right:0;width:30px;height:2px;background:linear-gradient(90deg,transparent,var(--gold));}
+.section-link{font-size:12px;color:var(--gold);background:none;border:none;cursor:pointer;font-family:var(--font-ar);}
+
+/* HERO */
+.hero-banner{margin:16px;border-radius:20px;overflow:hidden;height:200px;position:relative;background:linear-gradient(135deg,#0d0d00,#1a1500,#0a0a00);border:1px solid var(--border);box-shadow:var(--shadow-gold);}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(212,175,55,0.15),transparent 60%),linear-gradient(135deg,#111100,#0a0800);}
+.hero-content{position:absolute;inset:0;padding:24px 20px;display:flex;flex-direction:column;justify-content:center;}
+.hero-badge{background:var(--gold);color:#000;font-size:10px;font-weight:700;letter-spacing:1px;padding:4px 10px;border-radius:20px;width:fit-content;margin-bottom:10px;font-family:var(--font-ar);}
+.hero-title{font-family:var(--font-d);font-size:26px;font-weight:900;color:#fff;line-height:1.2;margin-bottom:6px;text-shadow:0 2px 10px rgba(0,0,0,.5);}
+.hero-subtitle{font-size:13px;color:var(--text2);margin-bottom:16px;font-family:var(--font-ar);}
+.hero-btn{background:var(--gold);color:#000;border:none;padding:10px 20px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;width:fit-content;font-family:var(--font-ar);transition:var(--transition);box-shadow:0 4px 15px rgba(212,175,55,0.4);}
+.hero-btn:active{transform:scale(.95);}
+.hero-watch-img{position:absolute;left:-10px;top:50%;transform:translateY(-50%);font-size:120px;opacity:.25;}
+
+/* H-SCROLL */
+.h-scroll{display:flex;gap:12px;overflow-x:auto;padding:0 16px 4px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;}
+.h-scroll::-webkit-scrollbar{height:0;}
+.h-scroll>*{scroll-snap-align:start;flex-shrink:0;}
+
+/* CAT CHIPS */
+.cat-chips{margin-bottom:20px;}
+.cat-chip{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 14px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;transition:var(--transition);width:82px;}
+.cat-chip.active{border-color:var(--gold);background:rgba(212,175,55,0.1);}
+.cat-chip:active{transform:scale(.93);}
+.cat-chip .cat-icon{font-size:24px;}
+.cat-chip .cat-label{font-size:10px;color:var(--text2);white-space:nowrap;font-family:var(--font-ar);}
+.cat-chip.active .cat-label{color:var(--gold);}
+
+/* SUB-CATEGORY HEADER */
+.sub-cat-bar{display:flex;gap:8px;overflow-x:auto;padding:0 16px 8px;margin-bottom:8px;-webkit-overflow-scrolling:touch;}
+.sub-cat-bar::-webkit-scrollbar{height:0;}
+.sub-pill{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--text2);white-space:nowrap;cursor:pointer;transition:var(--transition);font-family:var(--font-ar);flex-shrink:0;}
+.sub-pill.active{background:rgba(212,175,55,0.15);border-color:var(--gold);color:var(--gold);}
+.sub-pill:active{transform:scale(.94);}
+
+/* PRODUCT CARDS */
+.prod-card-h{width:165px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:var(--transition);position:relative;}
+.prod-card-h:active{transform:scale(.96);}
+.prod-card-h .card-img{width:100%;height:130px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bg3),var(--bg4));font-size:68px;position:relative;overflow:hidden;}
+.prod-card-h .card-img img,.prod-card-v .card-img img,.detail-img-gallery img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.prod-card-h .card-img .emoji-fallback,.prod-card-v .card-img .emoji-fallback{position:relative;z-index:1;}
+.card-fav{position:absolute;top:8px;left:8px;width:30px;height:30px;background:rgba(0,0,0,.6);border-radius:8px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:var(--transition);backdrop-filter:blur(4px);}
+.card-fav.active{background:rgba(231,76,60,.2);color:#e74c3c;}
+.card-badge{position:absolute;top:8px;right:8px;background:var(--gold);color:#000;font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px;font-family:monospace;}
+.card-body{padding:10px 10px 12px;}
+.card-brand{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;}
+.card-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;line-height:1.3;font-family:var(--font-ar);}
+.card-rating{display:flex;align-items:center;gap:4px;margin-bottom:8px;}
+.stars{color:var(--gold);font-size:10px;}
+.rating-count{font-size:10px;color:var(--text3);}
+.card-price-row{display:flex;justify-content:space-between;align-items:center;}
+.card-price{font-size:14px;font-weight:700;color:var(--gold);font-family:var(--font-d);}
+.card-price-old{font-size:10px;color:var(--text3);text-decoration:line-through;}
+.card-add{width:28px;height:28px;background:var(--gold);color:#000;border:none;border-radius:8px;cursor:pointer;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;transition:var(--transition);}
+.card-add:active{transform:scale(.88);}
+
+.products-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px;}
+.prod-card-v{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:var(--transition);position:relative;}
+.prod-card-v:active{transform:scale(.96);}
+.prod-card-v .card-img{width:100%;height:140px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bg3),var(--bg4));font-size:72px;position:relative;}
+.prod-card-v .card-body{padding:10px;}
+
+/* FILTER BAR */
+.filter-bar{display:flex;gap:8px;padding:8px 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:12px;}
+.filter-bar::-webkit-scrollbar{height:0;}
+.filter-pill{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--text2);white-space:nowrap;cursor:pointer;transition:var(--transition);font-family:var(--font-ar);flex-shrink:0;}
+.filter-pill.active{background:rgba(212,175,55,0.15);border-color:var(--gold);color:var(--gold);}
+.filter-pill:active{transform:scale(.94);}
+
+/* DETAIL MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.85);opacity:0;pointer-events:none;transition:opacity .3s ease;backdrop-filter:blur(8px);}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal-sheet{position:fixed;bottom:0;left:0;right:0;max-width:430px;margin:0 auto;background:var(--bg2);border-radius:24px 24px 0 0;max-height:92vh;overflow-y:auto;transform:translateY(100%);transition:transform .4s cubic-bezier(0.4,0,0.2,1);z-index:501;padding-bottom:40px;}
+.modal-sheet::-webkit-scrollbar{width:0;}
+.modal-sheet.open{transform:translateY(0);}
+.modal-handle{width:40px;height:4px;background:var(--bg4);border-radius:2px;margin:12px auto 0;}
+.modal-header-bar{display:flex;justify-content:space-between;align-items:center;padding:16px 20px 0;}
+.modal-close{width:36px;height:36px;background:var(--bg3);border:none;border-radius:10px;cursor:pointer;font-size:16px;color:var(--text2);display:flex;align-items:center;justify-content:center;}
+.detail-img-gallery{height:260px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bg3),var(--bg4));font-size:160px;position:relative;overflow:hidden;margin:0 20px;border-radius:16px;margin-top:16px;}
+.detail-img-gallery::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,rgba(212,175,55,.1),transparent 60%);}
+.img-dots{display:flex;gap:6px;justify-content:center;margin-top:10px;}
+.img-dot{width:6px;height:6px;border-radius:3px;background:var(--bg4);transition:var(--transition);}
+.img-dot.active{width:18px;background:var(--gold);}
+.detail-body{padding:20px;}
+.detail-brand{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;}
+.detail-name{font-size:22px;font-weight:700;color:var(--text);margin-bottom:8px;font-family:var(--font-ar);}
+.detail-rating-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.availability-badge{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;font-family:var(--font-ar);}
+.availability-badge.available{background:rgba(76,175,80,.15);color:var(--success);}
+.availability-badge.low{background:rgba(255,152,0,.15);color:var(--warning);}
+.detail-price-row{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+.detail-price{font-size:28px;font-weight:700;color:var(--gold);font-family:var(--font-d);}
+.detail-price-old{font-size:16px;color:var(--text3);text-decoration:line-through;}
+.detail-discount{background:rgba(231,76,60,.2);color:var(--red);font-size:12px;font-weight:700;padding:3px 8px;border-radius:6px;}
+.specs-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.spec-item{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:10px 12px;}
+.spec-label{font-size:10px;color:var(--text3);margin-bottom:3px;font-family:var(--font-ar);}
+.spec-value{font-size:12px;color:var(--text);font-weight:600;font-family:var(--font-ar);}
+.detail-actions{display:flex;gap:10px;}
+.btn-cart{flex:1;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000;border:none;padding:14px;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font-ar);transition:var(--transition);box-shadow:0 4px 20px rgba(212,175,55,.3);}
+.btn-cart:active{transform:scale(.97);}
+.btn-fav2{width:52px;height:52px;background:var(--surface);border:1px solid var(--border);border-radius:14px;cursor:pointer;font-size:22px;display:flex;align-items:center;justify-content:center;transition:var(--transition);}
+.btn-fav2.active{background:rgba(231,76,60,.15);border-color:rgba(231,76,60,.4);}
+.btn-share2{width:52px;height:52px;background:var(--surface);border:1px solid var(--border);border-radius:14px;cursor:pointer;font-size:22px;display:flex;align-items:center;justify-content:center;}
+.review-card{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:14px;margin-bottom:10px;}
+.review-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.reviewer-name{font-size:13px;font-weight:600;color:var(--text);font-family:var(--font-ar);}
+.review-date{font-size:11px;color:var(--text3);}
+.review-text{font-size:13px;color:var(--text2);line-height:1.5;font-family:var(--font-ar);}
+
+/* CART */
+.cart-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;text-align:center;}
+.cart-item{margin:0 16px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;gap:12px;align-items:center;}
+.cart-item-img{width:70px;height:70px;border-radius:12px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:38px;flex-shrink:0;}
+.cart-item-info{flex:1;}
+.cart-item-brand{font-size:10px;color:var(--text3);text-transform:uppercase;}
+.cart-item-name{font-size:14px;color:var(--text);font-weight:600;margin-bottom:6px;font-family:var(--font-ar);}
+.cart-item-price{font-size:15px;color:var(--gold);font-weight:700;font-family:var(--font-d);}
+.qty-ctrl{display:flex;align-items:center;gap:10px;margin-top:8px;}
+.qty-btn{width:28px;height:28px;border-radius:8px;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);}
+.qty-btn:active{transform:scale(.88);background:var(--gold);color:#000;}
+.qty-val{font-size:14px;font-weight:700;color:var(--text);min-width:20px;text-align:center;}
+.cart-item-del{width:36px;height:36px;border-radius:10px;background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.2);color:var(--red);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:var(--transition);}
+.cart-summary{margin:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;}
+.summary-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:14px;}
+.summary-row .label{color:var(--text2);font-family:var(--font-ar);}
+.summary-row .val{color:var(--text);font-weight:600;font-family:var(--font-d);}
+.summary-divider{height:1px;background:var(--border);margin:12px 0;}
+.summary-total .label{color:var(--text);font-size:16px;font-weight:700;font-family:var(--font-ar);}
+.summary-total .val{color:var(--gold);font-size:20px;font-weight:700;font-family:var(--font-d);}
+.promo-row{display:flex;gap:8px;margin-bottom:16px;}
+.promo-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--text);font-size:13px;font-family:var(--font-ar);outline:none;direction:rtl;}
+.promo-btn{background:var(--gold);color:#000;border:none;border-radius:10px;padding:0 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-ar);}
+.btn-checkout{margin:0 16px 16px;width:calc(100% - 32px);background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000;border:none;padding:16px;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font-ar);transition:var(--transition);box-shadow:0 6px 24px rgba(212,175,55,.35);display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-checkout:active{transform:scale(.98);}
+
+/* CHECKOUT */
+.checkout-modal{position:fixed;inset:0;z-index:600;background:var(--bg2);transform:translateY(100%);transition:transform .4s cubic-bezier(0.4,0,0.2,1);max-width:430px;margin:0 auto;overflow-y:auto;padding-bottom:40px;}
+.checkout-modal::-webkit-scrollbar{width:0;}
+.checkout-modal.open{transform:translateY(0);}
+.checkout-top{padding:20px 16px 0;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);padding-bottom:16px;}
+.checkout-back{width:40px;height:40px;background:var(--bg3);border:none;border-radius:12px;cursor:pointer;font-size:18px;color:var(--text2);display:flex;align-items:center;justify-content:center;}
+.checkout-title{font-size:18px;font-weight:700;font-family:var(--font-ar);color:var(--text);}
+.steps-indicator{display:flex;align-items:center;padding:16px;margin-bottom:8px;}
+.step-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;transition:var(--transition);flex-shrink:0;}
+.step-dot.done{background:var(--gold);color:#000;}
+.step-dot.active{background:var(--gold);color:#000;box-shadow:0 0 0 4px var(--gold-glow);}
+.step-dot.pending{background:var(--bg3);color:var(--text3);border:1px solid var(--border);}
+.step-line{flex:1;height:2px;background:var(--border);margin:0 4px;transition:var(--transition);}
+.step-line.done{background:var(--gold);}
+.step-label-row{display:flex;justify-content:space-between;padding:0 16px;margin-bottom:20px;}
+.step-label{font-size:10px;color:var(--text3);font-family:var(--font-ar);text-align:center;flex:1;}
+.step-label.active{color:var(--gold);}
+.checkout-section{margin:0 16px 16px;}
+.checkout-section-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:12px;font-family:var(--font-ar);}
+.input-group{margin-bottom:12px;}
+.input-label{font-size:12px;color:var(--text2);margin-bottom:6px;display:block;font-family:var(--font-ar);}
+.form-input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 14px;color:var(--text);font-family:var(--font-ar);font-size:14px;outline:none;direction:rtl;transition:var(--transition);}
+.form-input:focus{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold-glow);}
+.input-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.shipping-option{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;cursor:pointer;transition:var(--transition);}
+.shipping-option.selected{border-color:var(--gold);background:rgba(212,175,55,.06);}
+.ship-info{flex:1;}
+.ship-name{font-size:14px;font-weight:600;color:var(--text);font-family:var(--font-ar);}
+.ship-time{font-size:12px;color:var(--text2);margin-top:2px;font-family:var(--font-ar);}
+.ship-price{font-size:14px;font-weight:700;color:var(--gold);font-family:var(--font-d);}
+.ship-radio{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);margin-right:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:var(--transition);}
+.ship-radio.selected{border-color:var(--gold);background:var(--gold);}
+.pay-option{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:10px;cursor:pointer;transition:var(--transition);}
+.pay-option.selected{border-color:var(--gold);background:rgba(212,175,55,.06);}
+.pay-icon{font-size:28px;}
+.pay-name{font-size:14px;font-weight:600;color:var(--text);font-family:var(--font-ar);}
+.pay-desc{font-size:11px;color:var(--text3);font-family:var(--font-ar);}
+.btn-next{width:calc(100% - 32px);margin:0 16px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000;border:none;padding:16px;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font-ar);transition:var(--transition);box-shadow:0 6px 24px rgba(212,175,55,.3);}
+.btn-next:active{transform:scale(.98);}
+
+/* SUCCESS */
+.success-screen{padding:40px 20px;text-align:center;}
+.success-ring{width:100px;height:100px;margin:0 auto 24px;border-radius:50%;background:rgba(76,175,80,.1);border:2px solid var(--success);display:flex;align-items:center;justify-content:center;font-size:48px;animation:successPop .5s cubic-bezier(0.4,0,0.2,1);}
+@keyframes successPop{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}
+.success-title{font-size:22px;font-weight:700;color:var(--text);margin-bottom:6px;font-family:var(--font-ar);}
+.success-sub{font-size:14px;color:var(--text2);margin-bottom:24px;font-family:var(--font-ar);}
+.order-ref-card{background:var(--surface);border:1px solid var(--gold);border-radius:16px;padding:16px;margin-bottom:20px;}
+.order-ref-label{font-size:11px;color:var(--text3);margin-bottom:4px;font-family:var(--font-ar);}
+.order-ref-num{font-size:22px;font-weight:700;color:var(--gold);font-family:var(--font-d);letter-spacing:2px;}
+.delivery-estimate{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:24px;display:flex;align-items:center;gap:12px;}
+.delivery-icon{font-size:32px;}
+.delivery-info .d-label{font-size:11px;color:var(--text3);font-family:var(--font-ar);}
+.delivery-info .d-date{font-size:15px;font-weight:700;color:var(--text);font-family:var(--font-ar);}
+.success-btns{display:flex;flex-direction:column;gap:10px;}
+.btn-track{width:100%;background:var(--gold);color:#000;border:none;padding:14px;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font-ar);transition:var(--transition);}
+.btn-home-return{width:100%;background:var(--surface);color:var(--text);border:1px solid var(--border);padding:14px;border-radius:14px;font-size:15px;cursor:pointer;font-family:var(--font-ar);}
+
+/* ORDERS */
+.orders-tabs{display:flex;padding:0 16px;gap:8px;margin-bottom:16px;overflow-x:auto;}
+.orders-tabs::-webkit-scrollbar{height:0;}
+.order-tab{padding:8px 16px;border-radius:20px;border:1px solid var(--border);background:var(--surface);font-size:12px;color:var(--text2);cursor:pointer;font-family:var(--font-ar);transition:var(--transition);white-space:nowrap;flex-shrink:0;}
+.order-tab.active{background:rgba(212,175,55,.15);border-color:var(--gold);color:var(--gold);}
+.order-card{margin:0 16px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;cursor:pointer;transition:var(--transition);}
+.order-card:active{transform:scale(.98);}
+.order-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.order-num{font-size:13px;font-weight:700;color:var(--gold);font-family:var(--font-d);}
+.order-status{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;font-family:var(--font-ar);}
+.status-delivered{background:rgba(76,175,80,.15);color:var(--success);}
+.status-shipping{background:rgba(33,150,243,.15);color:#2196F3;}
+.status-processing{background:rgba(255,152,0,.15);color:var(--warning);}
+.status-cancelled{background:rgba(244,67,54,.15);color:var(--error);}
+.order-items-row{display:flex;gap:8px;margin-bottom:10px;}
+.order-item-img{width:50px;height:50px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:26px;}
+.order-footer{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid var(--border);}
+.order-total{font-size:15px;font-weight:700;color:var(--gold);font-family:var(--font-d);}
+.order-action{font-size:12px;color:var(--gold);font-family:var(--font-ar);}
+.track-timeline{margin:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;}
+.track-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:14px;font-family:var(--font-ar);}
+.timeline-item{display:flex;gap:12px;margin-bottom:16px;}
+.timeline-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px;position:relative;}
+.timeline-dot::after{content:'';position:absolute;top:10px;left:4px;width:2px;height:calc(100% + 6px);background:var(--border);}
+.timeline-item:last-child .timeline-dot::after{display:none;}
+.timeline-dot.done{background:var(--success);}
+.timeline-dot.active{background:var(--gold);box-shadow:0 0 0 3px var(--gold-glow);}
+.timeline-dot.pending{background:var(--bg4);border:1px solid var(--border);}
+.tl-title{font-size:13px;font-weight:600;color:var(--text);font-family:var(--font-ar);}
+.tl-time{font-size:11px;color:var(--text3);font-family:var(--font-ar);}
+
+/* PROFILE */
+.profile-hero{background:linear-gradient(135deg,var(--bg3),var(--bg4));margin:16px;border-radius:20px;border:1px solid var(--border);padding:24px;text-align:center;position:relative;overflow:hidden;}
+.profile-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(212,175,55,.12),transparent 70%);}
+.avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-dark));margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:36px;border:3px solid rgba(212,175,55,.3);position:relative;z-index:1;}
+.profile-name{font-size:20px;font-weight:700;color:var(--text);font-family:var(--font-ar);position:relative;z-index:1;}
+.profile-email{font-size:13px;color:var(--text2);margin-top:4px;position:relative;z-index:1;}
+.profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:12px;overflow:hidden;margin-top:16px;position:relative;z-index:1;}
+.stat-item{background:var(--bg3);padding:10px;text-align:center;}
+.stat-num{font-size:18px;font-weight:700;color:var(--gold);font-family:var(--font-d);}
+.stat-label{font-size:10px;color:var(--text3);font-family:var(--font-ar);}
+.menu-section{margin:0 16px 16px;}
+.menu-title{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;font-family:var(--font-ar);}
+.menu-item{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:8px;cursor:pointer;transition:var(--transition);}
+.menu-item:active{transform:scale(.98);}
+.menu-item-icon{font-size:22px;width:36px;text-align:center;}
+.menu-item-label{flex:1;font-size:14px;color:var(--text);font-family:var(--font-ar);}
+.menu-item-arrow{color:var(--text3);font-size:16px;}
+.menu-item-badge{background:var(--gold);color:#000;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;}
+.toggle-switch{width:44px;height:24px;background:var(--bg4);border-radius:12px;position:relative;cursor:pointer;transition:var(--transition);border:1px solid var(--border);flex-shrink:0;}
+.toggle-switch.on{background:var(--gold);}
+.toggle-knob{position:absolute;width:18px;height:18px;background:#fff;border-radius:50%;top:2px;right:2px;transition:var(--transition);}
+.toggle-switch.on .toggle-knob{right:calc(100% - 20px);}
+.btn-logout{margin:0 16px 20px;width:calc(100% - 32px);background:rgba(231,76,60,.1);color:var(--red);border:1px solid rgba(231,76,60,.3);padding:14px;border-radius:14px;font-size:15px;cursor:pointer;font-family:var(--font-ar);transition:var(--transition);}
+
+/* SEARCH SCREEN */
+.trending-chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px;margin-bottom:20px;}
+.trending-chip{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--text2);cursor:pointer;font-family:var(--font-ar);transition:var(--transition);}
+.trending-chip:active{background:var(--gold);color:#000;border-color:var(--gold);}
+.search-hint{text-align:center;padding:40px 20px;color:var(--text3);font-family:var(--font-ar);}
+.search-hint-icon{font-size:64px;margin-bottom:12px;}
+
+/* TOAST */
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg3);border:1px solid var(--gold);border-radius:12px;padding:12px 20px;font-size:13px;color:var(--text);font-family:var(--font-ar);white-space:nowrap;opacity:0;transition:all .3s ease;z-index:1000;box-shadow:var(--shadow-gold);max-width:320px;text-align:center;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* PAGE TITLE */
+.page-title{padding:20px 16px 8px;font-size:24px;font-weight:700;color:var(--text);font-family:var(--font-ar);}
+.page-subtitle{padding:0 16px 16px;font-size:13px;color:var(--text3);font-family:var(--font-ar);}
+.section-spacer{height:20px;}
+.fav-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px;}
+
+/* FULL-SCREEN LAYER */
+.full-layer{position:fixed;inset:0;z-index:400;background:var(--bg2);overflow-y:auto;max-width:430px;margin:0 auto;padding-bottom:40px;}
+.full-layer::-webkit-scrollbar{width:0;}
+.full-layer-header{padding:20px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);margin-bottom:16px;}
+.back-btn{width:40px;height:40px;background:var(--bg3);border:none;border-radius:12px;cursor:pointer;font-size:18px;color:var(--text2);display:flex;align-items:center;justify-content:center;}
+
+/* PROFILE EDIT MODAL */
+.edit-overlay{position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.85);opacity:0;pointer-events:none;transition:opacity .3s ease;}
+.edit-overlay.open{opacity:1;pointer-events:all;}
+.edit-sheet{position:fixed;bottom:0;left:0;right:0;max-width:430px;margin:0 auto;background:var(--bg2);border-radius:24px 24px 0 0;max-height:92vh;overflow-y:auto;transform:translateY(100%);transition:transform .4s cubic-bezier(0.4,0,0.2,1);z-index:801;padding:0 0 40px;}
+.edit-sheet::-webkit-scrollbar{width:0;}
+.edit-sheet.open{transform:translateY(0);}
+.edit-sheet-handle{width:40px;height:4px;background:var(--bg4);border-radius:2px;margin:12px auto 0;}
+
+/* ADDRESS CARD */
+.addr-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;position:relative;}
+.addr-card.default{border-color:var(--gold);}
+.addr-default-badge{position:absolute;top:10px;left:10px;background:var(--gold);color:#000;font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px;font-family:var(--font-ar);}
+.addr-actions{display:flex;gap:8px;margin-top:10px;}
+.addr-btn{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;color:var(--text2);cursor:pointer;font-family:var(--font-ar);}
+.addr-btn.danger{color:var(--red);border-color:rgba(231,76,60,.3);}
+
+/* NOTIFICATION ITEM */
+.notif-item{margin:0 16px 10px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;display:flex;gap:12px;cursor:pointer;}
+.notif-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:5px;}
+.notif-dot.read{background:var(--bg4);}
+
+/* CATEGORY PAGE BANNER */
+.cat-page-banner{margin:12px 16px;border-radius:16px;background:linear-gradient(135deg,var(--bg3),var(--bg4));border:1px solid var(--border);padding:16px 18px;display:flex;align-items:center;justify-content:space-between;}
+.cat-page-banner .banner-icon{font-size:56px;opacity:.8;}
+.cat-page-banner .banner-info .b-title{font-size:18px;font-weight:700;color:var(--text);font-family:var(--font-ar);}
+.cat-page-banner .banner-info .b-count{font-size:12px;color:var(--text3);font-family:var(--font-ar);}
+
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="splash-ring"><span class="splash-clock">⌚</span></div>
+  <div class="splash-logo">وجدي الدُبعي</div>
+  <div class="splash-sub">لأرقى الساعات الفاخرة</div>
+</div>
+
+<div id="app" style="opacity:0;transition:opacity .5s ease;">
+  <header class="app-header">
+    <div class="header-logo">وجدي الدُبعي<span>لأرقى الساعات</span></div>
+    <div class="header-actions">
+      <button class="icon-btn" onclick="showScreen('search')">🔍</button>
+      <button class="icon-btn gold" onclick="showScreen('cart')">🛒<span class="badge" id="cart-badge">0</span></button>
+    </div>
+  </header>
+
+  <div class="screen-container">
+
+    <!-- HOME -->
+    <div class="screen active" id="screen-home">
+      <div class="search-bar">
+        <input class="search-input" type="text" placeholder="ابحث عن ساعتك المثالية..." oninput="handleSearch(this.value)">
+        <span class="search-icon">🔍</span>
+      </div>
+      <div class="hero-banner" onclick="showScreen('products')">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+          <div class="hero-badge">✨ مجموعة 2025</div>
+          <div class="hero-title">رقيٌّ لا حدود له</div>
+          <div class="hero-subtitle">أرقى الساعات من أفضل الماركات</div>
+          <button class="hero-btn">تسوّق الآن ←</button>
+        </div>
+        <div class="hero-watch-img">⌚</div>
+      </div>
+
+      <!-- Main Categories -->
+      <div style="margin-top:20px;">
+        <div class="section-header"><span class="section-title">الأقسام الرئيسية</span></div>
+        <div class="h-scroll cat-chips">
+          <div class="cat-chip active" onclick="setCatChip(this,'all')"><span class="cat-icon">⌚</span><span class="cat-label">الكل</span></div>
+          <div class="cat-chip" onclick="openCategoryPage('women_watches')"><span class="cat-icon">👸</span><span class="cat-label">نسائية</span></div>
+          <div class="cat-chip" onclick="openCategoryPage('men_watches')"><span class="cat-icon">🕴️</span><span class="cat-label">رجالية</span></div>
+          <div class="cat-chip" onclick="openCategoryPage('couples_sets')"><span class="cat-icon">💑</span><span class="cat-label">أطقم</span></div>
+          <div class="cat-chip" onclick="openCategoryPage('wall_clocks')"><span class="cat-icon">🕰️</span><span class="cat-label">حائط</span></div>
+          <div class="cat-chip" onclick="openCategoryPage('alarm_clocks')"><span class="cat-icon">⏰</span><span class="cat-label">منبه</span></div>
+          <div class="cat-chip" onclick="openCategoryPage('smart')"><span class="cat-icon">📲</span><span class="cat-label">ذكية</span></div>
+          <div class="cat-chip" onclick="openCategoryPage('aliexpress')" style="border-color:rgba(255,102,0,0.4);background:rgba(255,102,0,0.08);"><span class="cat-icon">🛒</span><span class="cat-label" style="color:#FF6600;">علي إكسبريس</span></div>
+        </div>
+      </div>
+
+      <div style="margin-top:4px;">
+        <div class="section-header"><span class="section-title">الساعات المميزة</span><button class="section-link" onclick="showScreen('products')">عرض الكل</button></div>
+        <div class="h-scroll" id="featured-scroll"></div>
+      </div>
+      <div style="margin-top:20px;">
+        <div class="section-header"><span class="section-title">🔥 عروض خاصة</span><button class="section-link" onclick="showScreen('products')">عرض الكل</button></div>
+        <div class="h-scroll" id="offers-scroll"></div>
+      </div>
+
+      <!-- AliExpress Banner -->
+      <div style="margin:20px 16px 0;border-radius:20px;overflow:hidden;position:relative;background:linear-gradient(135deg,#1a0a00,#2d1000,#1a0500);border:1px solid rgba(255,102,0,0.3);padding:20px;cursor:pointer;" onclick="openCategoryPage('aliexpress')">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(255,102,0,0.15),transparent 60%);"></div>
+        <div style="position:relative;">
+          <div style="background:#FF6600;color:#fff;font-size:10px;font-weight:700;letter-spacing:1px;padding:4px 10px;border-radius:20px;width:fit-content;margin-bottom:10px;font-family:var(--font-ar);">🛒 علي إكسبريس</div>
+          <div style="font-family:var(--font-d);font-size:22px;font-weight:900;color:#fff;line-height:1.2;margin-bottom:6px;">عروض مذهلة تصل لـ 94%</div>
+          <div style="font-size:12px;color:rgba(255,200,150,0.8);margin-bottom:14px;font-family:var(--font-ar);">ساعات ذكية ورياضية بأسعار لا تصدق</div>
+          <div style="background:#FF6600;color:#fff;border:none;padding:9px 18px;border-radius:10px;font-weight:700;font-size:12px;cursor:pointer;width:fit-content;font-family:var(--font-ar);display:inline-block;">اكتشف العروض ←</div>
+        </div>
+        <div style="position:absolute;left:-5px;top:50%;transform:translateY(-50%);font-size:80px;opacity:0.2;">📦</div>
+      </div>
+
+      <div style="margin-top:20px;">
+        <div class="section-header"><span class="section-title">🏆 الأكثر مبيعاً</span><button class="section-link" onclick="showScreen('products')">عرض الكل</button></div>
+        <div class="h-scroll" id="bestsellers-scroll"></div>
+      </div>
+      <div style="margin:20px 16px 0;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;text-align:center;">
+        <div style="font-size:11px;color:var(--text3);letter-spacing:2px;margin-bottom:12px;font-family:var(--font-ar);">شركاؤنا من أفخم الماركات</div>
+        <div style="display:flex;justify-content:space-around;font-size:12px;color:var(--text2);font-weight:700;font-family:var(--font-d);">
+          <span>ROLEX</span><span>OMEGA</span><span>TAG HEUER</span><span>PATEK</span>
+        </div>
+      </div>
+      <div class="section-spacer"></div>
+    </div>
+
+    <!-- PRODUCTS -->
+    <div class="screen" id="screen-products">
+      <div class="page-title">المنتجات</div>
+      <div class="filter-bar" id="filter-bar">
+        <div class="filter-pill active" onclick="setFilter('all',this)">الكل</div>
+        <div class="filter-pill" onclick="setFilter('women_watches',this)">نسائية</div>
+        <div class="filter-pill" onclick="setFilter('men_watches',this)">رجالية</div>
+        <div class="filter-pill" onclick="setFilter('couples_sets',this)">أطقم</div>
+        <div class="filter-pill" onclick="setFilter('wall_clocks',this)">حائط</div>
+        <div class="filter-pill" onclick="setFilter('alarm_clocks',this)">منبه</div>
+        <div class="filter-pill" onclick="setFilter('smart',this)">ذكية</div>
+        <div class="filter-pill" onclick="setFilter('aliexpress',this)" style="border-color:rgba(255,102,0,0.4);color:#FF6600;">🛒 علي إكسبريس</div>
+      </div>
+      <div class="products-grid" id="products-grid"></div>
+      <div class="section-spacer"></div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="screen" id="screen-search">
+      <div class="page-title">البحث</div>
+      <div class="search-bar" style="margin-top:0;">
+        <input class="search-input" type="text" id="main-search" placeholder="ابحث عن ساعة، ماركة، قسم..." oninput="doSearch(this.value)">
+        <span class="search-icon">🔍</span>
+      </div>
+      <div style="padding:0 16px 12px;font-size:12px;color:var(--text3);font-family:var(--font-ar);">الأكثر بحثاً</div>
+      <div class="trending-chips">
+        <div class="trending-chip" onclick="quickSearch('رولكس')">رولكس</div>
+        <div class="trending-chip" onclick="quickSearch('أوميغا')">أوميغا</div>
+        <div class="trending-chip" onclick="quickSearch('موضة')">موضة</div>
+        <div class="trending-chip" onclick="quickSearch('كريستال')">كريستال</div>
+        <div class="trending-chip" onclick="quickSearch('جلد')">جلدية</div>
+        <div class="trending-chip" onclick="quickSearch('حائط')">ساعة حائط</div>
+        <div class="trending-chip" onclick="quickSearch('منبه')">منبه</div>
+        <div class="trending-chip" onclick="quickSearch('طقم')">أطقم</div>
+        <div class="trending-chip" onclick="quickSearch('شبابية')">شبابية</div>
+        <div class="trending-chip" onclick="quickSearch('استيل')">استيل</div>
+      </div>
+      <div class="search-results" id="search-results">
+        <div class="search-hint"><div class="search-hint-icon">🔍</div><div>ابحث عن ساعتك المثالية</div></div>
+      </div>
+    </div>
+
+    <!-- CART -->
+    <div class="screen" id="screen-cart">
+      <div class="page-title">سلة المشتريات</div>
+      <div id="cart-content"></div>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="screen" id="screen-orders">
+      <div class="page-title">طلباتي</div>
+      <div class="orders-tabs">
+        <div class="order-tab active" onclick="filterOrders('all',this)">الكل</div>
+        <div class="order-tab" onclick="filterOrders('processing',this)">قيد التجهيز</div>
+        <div class="order-tab" onclick="filterOrders('shipping',this)">قيد الشحن</div>
+        <div class="order-tab" onclick="filterOrders('delivered',this)">مُسلَّم</div>
+      </div>
+      <div id="orders-list"></div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="screen" id="screen-profile">
+      <div class="page-title">ملفي الشخصي</div>
+      <div id="profile-hero-section"></div>
+
+      <div class="menu-section">
+        <div class="menu-title">إدارة الحساب</div>
+        <div class="menu-item" onclick="openEditProfile()">
+          <span class="menu-item-icon">✏️</span>
+          <span class="menu-item-label">تعديل البيانات الشخصية</span>
+          <span class="menu-item-arrow">‹</span>
+        </div>
+        <div class="menu-item" onclick="openChangePassword()">
+          <span class="menu-item-icon">🔑</span>
+          <span class="menu-item-label">تغيير كلمة المرور</span>
+          <span class="menu-item-arrow">‹</span>
+        </div>
+        <div class="menu-item" onclick="openAddresses()">
+          <span class="menu-item-icon">📍</span>
+          <span class="menu-item-label">عناوين الشحن</span>
+          <span class="menu-item-badge" id="addr-badge">2</span>
+          <span class="menu-item-arrow">‹</span>
+        </div>
+        <div class="menu-item" onclick="openPaymentMethods()">
+          <span class="menu-item-icon">💳</span>
+          <span class="menu-item-label">طرق الدفع المحفوظة</span>
+          <span class="menu-item-arrow">‹</span>
+        </div>
+        <div class="menu-item" onclick="showScreen('orders')">
+          <span class="menu-item-icon">📦</span>
+          <span class="menu-item-label">طلباتي</span>
+          <span class="menu-item-arrow">‹</span>
+        </div>
+        <div class="menu-item" onclick="showFavorites()">
+          <span class="menu-item-icon">❤️</span>
+          <span class="menu-item-label">المفضلة</span>
+          <span class="menu-item-badge" id="fav-badge-menu">0</span>
+          <span class="menu-item-arrow">‹</span>
+        </div>
+        <div class="menu-item" onclick="openNotifications()">
+          <span class="menu-item-icon">🔔</span>
+          <span class="menu-item-label">الإشعارات</span>
+          <span class="menu-item-badge" style="background:var(--red);" id="notif-badge">3</span>
+          <span class="menu-item-arrow">‹</span>
+        </div>
+      </div>
+
+      <div class="menu-section">
+        <div class="menu-title">الإعدادات</div>
+        <div class="menu-item">
+          <span class="menu-item-icon">🔔</span>
+          <span class="menu-item-label">إشعارات الطلبات</span>
+          <div class="toggle-switch on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-icon">📢</span>
+          <span class="menu-item-label">إشعارات العروض</span>
+          <div class="toggle-switch on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-icon">🌙</span>
+          <span class="menu-item-label">الوضع الليلي</span>
+          <div class="toggle-switch on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="menu-item" onclick="openLanguage()">
+          <span class="menu-item-icon">🌐</span>
+          <span class="menu-item-label">اللغة والمنطقة</span>
+          <span style="font-size:12px;color:var(--text3);font-family:var(--font-ar);" id="lang-display">العربية</span>
+          <span class="menu-item-arrow" style="margin-right:8px;">‹</span>
+        </div>
+        <div class="menu-item" onclick="openPrivacy()">
+          <span class="menu-item-icon">🔒</span>
+          <span class="menu-item-label">الخصوصية والأمان</span>
+          <span class="menu-item-arrow">‹</span>
+        </div>
+        <div class="menu-item" onclick="openSupport()">
+          <span class="menu-item-icon">🎧</span>
+          <span class="menu-item-label">الدعم والمساعدة</span>
+          <span class="menu-item-arrow">‹</span>
+        </div>
+        <div class="menu-item" onclick="showToast('الإصدار 2.5.1 - وجدي الدُبعي للساعات')">
+          <span class="menu-item-icon">ℹ️</span>
+          <span class="menu-item-label">حول التطبيق</span>
+          <span style="font-size:11px;color:var(--text3);">v2.5.1</span>
+        </div>
+      </div>
+      <button class="btn-logout" onclick="confirmLogout()">🚪 تسجيل الخروج</button>
+    </div>
+
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" onclick="showScreen('home')" id="nav-home"><span class="nav-icon">🏠</span><span class="nav-label">الرئيسية</span></button>
+    <button class="nav-btn" onclick="showScreen('search')" id="nav-search"><span class="nav-icon">🔍</span><span class="nav-label">البحث</span></button>
+    <button class="nav-btn" onclick="showScreen('cart')" id="nav-cart"><span class="nav-icon">🛒</span><span class="nav-label">السلة</span></button>
+    <button class="nav-btn" onclick="showScreen('orders')" id="nav-orders"><span class="nav-icon">📦</span><span class="nav-label">الطلبات</span></button>
+    <button class="nav-btn" onclick="showScreen('profile')" id="nav-profile"><span class="nav-icon">👤</span><span class="nav-label">حسابي</span></button>
+  </nav>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detail-overlay" onclick="closeDetailModal()"></div>
+<div class="modal-sheet" id="detail-sheet">
+  <div class="modal-handle"></div>
+  <div class="modal-header-bar">
+    <div id="detail-brand-header" style="font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:2px;"></div>
+    <button class="modal-close" onclick="closeDetailModal()">✕</button>
+  </div>
+  <div id="detail-content"></div>
+</div>
+
+<!-- EDIT PROFILE OVERLAY -->
+<div class="edit-overlay" id="edit-overlay" onclick="closeEditModal()"></div>
+<div class="edit-sheet" id="edit-sheet">
+  <div class="edit-sheet-handle"></div>
+  <div id="edit-content"></div>
+</div>
+
+<!-- CHECKOUT -->
+<div class="checkout-modal" id="checkout-modal">
+  <div class="checkout-top">
+    <button class="checkout-back" onclick="closeCheckout()">←</button>
+    <div class="checkout-title">إتمام الشراء</div>
+  </div>
+  <div id="checkout-content"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ========================= DATA =========================
+
+const CATEGORIES = {
+  women_watches: { label:'ساعات نسائية', icon:'👸', subs:['الكل','موضة','كريستال','استيل','جلدية','أطقم نسائية'] },
+  men_watches:   { label:'ساعات رجالية', icon:'🕴️', subs:['الكل','شبابية','استيل','جلدية','أطقم رجالية'] },
+  couples_sets:  { label:'أطقم نسائي ورجالي', icon:'💑', subs:['الكل'] },
+  wall_clocks:   { label:'ساعات حائط', icon:'🕰️', subs:['الكل','كلاسيكي','حديث','ديجيتال'] },
+  alarm_clocks:  { label:'ساعات منبه', icon:'⏰', subs:['الكل','رقمي','تناظري','ذكي'] },
+  smart:         { label:'ساعات ذكية', icon:'📲', subs:['الكل'] },
+  aliexpress:    { label:'عروض علي إكسبريس', icon:'🛒', subs:['الكل','ساعات ذكية','ساعات رجالية','ساعات رياضية'] },
+};
+
+const PRODUCTS = [
+  // ===== WOMEN - FASHION =====
+  { id:1,  name:'شانيل بوي فريند',         brand:'Chanel',       cat:'women_watches', sub:'موضة',       emoji:'🌸', price:68000,  oldPrice:75000, rating:4.9, reviews:112, stock:'available', discount:9,
+    specs:{movement:'كوارتز',material:'ذهب وردي',diameter:'33mm',water:'30م',warranty:'2 سنة'},
+    description:'رمز الموضة الراقية. بسوار من الجلد الفاخر ووجه أبيض ناصع، تعكس شخصية المرأة الواثقة.',
+    reviewsList:[{user:'سارة م.',rating:5,text:'أجمل ساعة في المجموعة، أحصل على إطراء يومياً',date:'10 أبريل 2025'}]},
+  { id:2,  name:'لويس فيتون تامبور',        brand:'Louis Vuitton', cat:'women_watches', sub:'موضة',       emoji:'🦋', price:54000,  oldPrice:null,  rating:4.8, reviews:87,  stock:'available', discount:null,
+    specs:{movement:'أوتوماتيك',material:'ستيل وجلد LV',diameter:'34mm',water:'30م',warranty:'2 سنة'},
+    description:'تصميم تامبور الأيقوني من لويس فيتون. نقشة المونوغرام الشهيرة تزيّن وجه الساعة بأناقة لا مثيل لها.',
+    reviewsList:[{user:'ديمة ق.',rating:5,text:'فخمة ومميزة، تستحق كل ريال',date:'3 أبريل 2025'}]},
+  { id:3,  name:'سواروفسكي كريستال',         brand:'Swarovski',    cat:'women_watches', sub:'كريستال',    emoji:'💎', price:8500,   oldPrice:10000, rating:4.7, reviews:234, stock:'available', discount:15,
+    specs:{movement:'كوارتز',material:'بلاتينوم وكريستال',diameter:'32mm',water:'30م',warranty:'سنة'},
+    description:'بريق الكريستال الأصيل من سواروفسكي. 84 حبة كريستال تزيّن المينا والسوار بضوء ساحر لا يُقاوم.',
+    reviewsList:[{user:'رنا ح.',rating:5,text:'لامعة ورقيقة، مثالية للسهرات',date:'8 مارس 2025'}]},
+  { id:4,  name:'مايكل كورس كريستال رينستون', brand:'Michael Kors',  cat:'women_watches', sub:'كريستال',    emoji:'✨', price:4200,   oldPrice:5000,  rating:4.6, reviews:389, stock:'available', discount:16,
+    specs:{movement:'كوارتز',material:'استيل وأحجار كريمة',diameter:'38mm',water:'50م',warranty:'سنة'},
+    description:'إطلالة جريئة بفصوص كريستالية تحيط المينا والسوار الفولاذي. بيان أناقة يومي لكل مناسبة.',
+    reviewsList:[{user:'أسماء ز.',rating:4,text:'جميلة وبسعر معقول لماركة أصلية',date:'15 مارس 2025'}]},
+  { id:5,  name:'كاسيو شيين استيل',          brand:'Casio Sheen',  cat:'women_watches', sub:'استيل',      emoji:'🔷', price:1800,   oldPrice:2200,  rating:4.5, reviews:512, stock:'available', discount:18,
+    specs:{movement:'كوارتز',material:'استيل كامل',diameter:'34mm',water:'100م',warranty:'سنة'},
+    description:'متانة الاستيل مع لمسة أنثوية رفيعة. مقاومة للماء حتى 100 متر وحزام مرن يناسب جميع الأذواق.',
+    reviewsList:[{user:'منى ع.',rating:5,text:'تلبسها في كل مكان، خفيفة ومريحة',date:'20 مارس 2025'}]},
+  { id:6,  name:'فوسيل جاكي استيل',          brand:'Fossil',       cat:'women_watches', sub:'استيل',      emoji:'⚙️', price:2600,   oldPrice:3100,  rating:4.6, reviews:298, stock:'available', discount:16,
+    specs:{movement:'كوارتز',material:'استيل وذهب وردي',diameter:'36mm',water:'50م',warranty:'سنة'},
+    description:'مزيج الاستيل الفضي والذهب الوردي في تصميم أنيق متعدد المقاسات. رمز الأناقة اليومية.',
+    reviewsList:[{user:'هند م.',rating:5,text:'قيمة ممتازة مقابل السعر والتصميم رائع',date:'1 أبريل 2025'}]},
+  { id:7,  name:'كارتييه باشا جلدية',         brand:'Cartier',      cat:'women_watches', sub:'جلدية',      emoji:'🌹', price:72000,  oldPrice:78000, rating:4.8, reviews:76,  stock:'available', discount:8,
+    specs:{movement:'أوتوماتيك',material:'ذهب وجلد تمساح',diameter:'35mm',water:'30م',warranty:'2 سنة'},
+    description:'الأناقة الفرنسية الخالصة. حزام من جلد التمساح الأصيل بإبزيم ذهبي يُضفي جمالاً لا يُنسى.',
+    reviewsList:[{user:'ليلى أ.',rating:5,text:'تحفة حقيقية، تلبسها وتشعرين بالفرق',date:'22 مارس 2025'}]},
+  { id:8,  name:'تيسو تي-ليدي جلدية',         brand:'Tissot',       cat:'women_watches', sub:'جلدية',      emoji:'🍓', price:4800,   oldPrice:5500,  rating:4.7, reviews:187, stock:'available', discount:13,
+    specs:{movement:'كوارتز',material:'استيل وجلد إيطالي',diameter:'33mm',water:'30م',warranty:'2 سنة'},
+    description:'الدقة السويسرية مع جلد إيطالي ناعم متعدد الألوان. ساعة تيسيو التي تناسب كل إطلالة عصرية.',
+    reviewsList:[{user:'نادين ر.',rating:5,text:'دقيقة وأنيقة، حصلت عليها هدية وأعشقها',date:'5 أبريل 2025'}]},
+  { id:9,  name:'طقم سواروفسكي نسائي',        brand:'Swarovski',    cat:'women_watches', sub:'أطقم نسائية',emoji:'💍', price:15000,  oldPrice:18000, rating:4.9, reviews:65,  stock:'available', discount:17,
+    specs:{movement:'كوارتز',material:'بلاتينوم وكريستال',diameter:'30mm',water:'20م',warranty:'سنة'},
+    description:'طقم فاخر يضم: ساعة + خاتم + سوار كل قطعة مرصعة بكريستال سواروفسكي الأصيل. هدية مثالية للمرأة المتألقة.',
+    reviewsList:[{user:'ريم ف.',rating:5,text:'أروع هدية، مجموعة متكاملة وجميلة جداً',date:'14 فبراير 2025'}]},
+  { id:10, name:'طقم فوسيل نسائي ذهبي',       brand:'Fossil',       cat:'women_watches', sub:'أطقم نسائية',emoji:'🌟', price:7500,   oldPrice:9000,  rating:4.7, reviews:134, stock:'available', discount:17,
+    specs:{movement:'كوارتز',material:'استيل مطلي بالذهب',diameter:'32mm',water:'30م',warranty:'سنة'},
+    description:'طقم كامل من ساعة وسوارَين بطلاء ذهبي عالي الجودة. أناقة في كل لحظة.',
+    reviewsList:[{user:'غادة ل.',rating:5,text:'طقم ثمن بحق، تلبسينه يومياً',date:'20 أبريل 2025'}]},
+
+  // ===== MEN - YOUTH =====
+  { id:11, name:'كاسيو جي-شوك شبابية',        brand:'Casio G-Shock', cat:'men_watches',  sub:'شبابية',     emoji:'💪', price:950,    oldPrice:1200,  rating:4.8, reviews:876, stock:'available', discount:21,
+    specs:{movement:'كوارتز رقمي',material:'راتنج وستيل',diameter:'45mm',water:'200م',warranty:'سنة'},
+    description:'الملك الذي لا يُكسر. صممت لتتحمل الصدمات والماء والبيئات القاسية. تصميم عصري جريء مع كل الوظائف الذكية.',
+    reviewsList:[{user:'عبدالله ك.',rating:5,text:'أفضل ساعة شراءها في حياتي، صلبة جداً',date:'5 أبريل 2025'}]},
+  { id:12, name:'سيكو 5 سبورت شبابية',         brand:'Seiko',        cat:'men_watches',  sub:'شبابية',     emoji:'🏄', price:2800,   oldPrice:3400,  rating:4.7, reviews:445, stock:'available', discount:18,
+    specs:{movement:'أوتوماتيك',material:'استيل وسيليكون',diameter:'42mm',water:'100م',warranty:'سنة'},
+    description:'أوتوماتيك ياباني بسعر صديق. عقرب ملون وتصميم رياضي مميز. تناسب الشباب العصري في كل مكان.',
+    reviewsList:[{user:'خالد ع.',rating:5,text:'ساعة أوتوماتيك بهذا السعر لا تصدق',date:'2 أبريل 2025'}]},
+  { id:13, name:'تاغ هيور كارييرا استيل',       brand:'TAG Heuer',    cat:'men_watches',  sub:'استيل',      emoji:'⏱️', price:28000,  oldPrice:33000, rating:4.7, reviews:215, stock:'available', discount:15,
+    specs:{movement:'كرونوغراف',material:'ستيل وسيراميك',diameter:'44mm',water:'100م',warranty:'3 سنوات'},
+    description:'روح السباقات في معصمك. كرونوغراف دقيق بمينا أسود وإطار سيراميكي متين. الخيار الأول لعشاق السباقات.',
+    reviewsList:[{user:'فهد ر.',rating:5,text:'ساعة رائعة للعشاق الرياضيين',date:'5 أبريل 2025'}]},
+  { id:14, name:'أوميغا سيماستر استيل',         brand:'Omega',        cat:'men_watches',  sub:'استيل',      emoji:'🕐', price:42000,  oldPrice:48000, rating:4.8, reviews:98,  stock:'available', discount:13,
+    specs:{movement:'كو-أكسيل',material:'استيل',diameter:'43.5mm',water:'300م',warranty:'5 سنوات'},
+    description:'إرث الغوص والفضاء. ساعة الـ 007 الرسمية. استيل جراحي صلب مع زجاج ياقوتي لا يُخدش.',
+    reviewsList:[{user:'سلطان ف.',rating:5,text:'بحثت عنها طويلاً وأخيراً وجدتها',date:'20 مارس 2025'}]},
+  { id:15, name:'لونجين ماستر جلدية',           brand:'Longines',     cat:'men_watches',  sub:'جلدية',      emoji:'🧳', price:9500,   oldPrice:11000, rating:4.8, reviews:156, stock:'available', discount:14,
+    specs:{movement:'أوتوماتيك',material:'استيل وجلد بني',diameter:'40mm',water:'30م',warranty:'2 سنة'},
+    description:'التوازن المثالي بين الأناقة الكلاسيكية والجودة السويسرية. حزام جلد بني يجعلها مثالية لكل المناسبات الرسمية.',
+    reviewsList:[{user:'طارق ز.',rating:5,text:'أنيقة جداً مع البدلة الرسمية',date:'12 مارس 2025'}]},
+  { id:16, name:'تيسيو هيريتاج جلد',            brand:'Tissot',       cat:'men_watches',  sub:'جلدية',      emoji:'📜', price:5200,   oldPrice:6000,  rating:4.7, reviews:203, stock:'available', discount:13,
+    specs:{movement:'أوتوماتيك',material:'استيل وجلد أسود',diameter:'42mm',water:'30م',warranty:'2 سنة'},
+    description:'الكلاسيكية السويسرية بحلة معاصرة. حزام جلد ناعم مع مينا بيضاء كريمية وعقارب ذهبية فاخرة.',
+    reviewsList:[{user:'وائل م.',rating:5,text:'ساعة راقية جداً بسعر ممتاز',date:'18 مارس 2025'}]},
+  { id:17, name:'طقم رولكس رجالي ذهبي',         brand:'Rolex',        cat:'men_watches',  sub:'أطقم رجالية',emoji:'👑', price:240000, oldPrice:null,  rating:5.0, reviews:28,  stock:'available', discount:null,
+    specs:{movement:'أوتوماتيك',material:'ذهب أصفر 18 قيراط',diameter:'41mm',water:'100م',warranty:'5 سنوات'},
+    description:'طقم ملكي من رولكس يشمل: ساعة ديتونا + أسورة ذهبية. رمز السلطة والتميّز للرجل الراقي.',
+    reviewsList:[{user:'محمد الفيصل.',rating:5,text:'استثمار لا يُعوَّض، تحفة حقيقية',date:'1 مارس 2025'}]},
+  { id:18, name:'طقم أوميغا رجالي كامل',         brand:'Omega',        cat:'men_watches',  sub:'أطقم رجالية',emoji:'🔱', price:85000,  oldPrice:95000, rating:4.9, reviews:54,  stock:'available', discount:11,
+    specs:{movement:'أوتوماتيك',material:'ستيل وذهب',diameter:'43mm',water:'150م',warranty:'5 سنوات'},
+    description:'طقم أوميغا الكامل: ساعة سيماستر + سوار استيل أوميغا الأصيل. تناسق مثالي للرجل العصري.',
+    reviewsList:[{user:'علي ب.',rating:5,text:'طقم استثنائي، قطع متناسقة بشكل مذهل',date:'8 أبريل 2025'}]},
+
+  // ===== COUPLES SETS =====
+  { id:19, name:'طقم رولكس للزوجين',           brand:'Rolex',        cat:'couples_sets',  sub:'الكل',       emoji:'💑', price:160000, oldPrice:180000,rating:5.0, reviews:42,  stock:'available', discount:11,
+    specs:{movement:'أوتوماتيك',material:'ستيل وذهب',diameter:'41mm/36mm',water:'100م',warranty:'5 سنوات'},
+    description:'أيقونة الحب الأبدي. طقم رولكس للزوجين يضم: ديت-جست رجالي 41mm وديت-جست نسائي 36mm. هدية زفاف لا تُنسى.',
+    reviewsList:[{user:'أحمد وآية.',rating:5,text:'أهدانا هذا الطقم يوم زواجنا، ذكرى ستبقى للأبد',date:'14 فبراير 2025'}]},
+  { id:20, name:'طقم لونجين للزوجين',           brand:'Longines',     cat:'couples_sets',  sub:'الكل',       emoji:'💕', price:22000,  oldPrice:26000, rating:4.9, reviews:89,  stock:'available', discount:15,
+    specs:{movement:'أوتوماتيك',material:'استيل وذهب وردي',diameter:'40mm/32mm',water:'30م',warranty:'2 سنة'},
+    description:'طقم لونجين الرومانسي للزوجين في علبة هدايا فاخرة. تصميمان متناسقان يعبّران عن وحدة المشاعر.',
+    reviewsList:[{user:'كريم وسلمى.',rating:5,text:'هدية ذكرى زواج مثالية، شكراً وجدي',date:'22 مارس 2025'}]},
+  { id:21, name:'طقم كاسيو للزوجين',            brand:'Casio',        cat:'couples_sets',  sub:'الكل',       emoji:'💞', price:3800,   oldPrice:4500,  rating:4.6, reviews:178, stock:'available', discount:16,
+    specs:{movement:'كوارتز',material:'استيل',diameter:'44mm/36mm',water:'100م',warranty:'سنة'},
+    description:'الحب لا يحتاج باهظ الثمن. طقم كاسيو العصري بتصميم متطابق يجمع الزوجين في إطلالة مميزة.',
+    reviewsList:[{user:'يوسف وهيلين.',rating:4,text:'جميل وعملي، سعيدان به كثيراً',date:'10 أبريل 2025'}]},
+  { id:22, name:'طقم تيسيو للزوجين كلاسيك',     brand:'Tissot',       cat:'couples_sets',  sub:'الكل',       emoji:'💌', price:12000,  oldPrice:14000, rating:4.8, reviews:96,  stock:'available', discount:14,
+    specs:{movement:'كوارتز',material:'استيل وجلد',diameter:'42mm/34mm',water:'30م',warranty:'2 سنة'},
+    description:'كلاسيكية سويسرية للزوجين. ساعتان متناسقتان من تيسيو T-Classic في علبة هدايا مخملية.',
+    reviewsList:[{user:'ناصر وإيمان.',rating:5,text:'هدية زفاف رائعة، نوعية عالية',date:'5 مارس 2025'}]},
+
+  // ===== WALL CLOCKS =====
+  { id:23, name:'ساعة حائط باروك ذهبية',        brand:'Howard Miller', cat:'wall_clocks',  sub:'كلاسيكي',    emoji:'🕰️', price:3200,   oldPrice:3800,  rating:4.8, reviews:145, stock:'available', discount:16,
+    specs:{movement:'بندول',material:'خشب الجوز المذهب',diameter:'60cm',water:'—',warranty:'سنة'},
+    description:'تحفة باروكية فاخرة. إطار خشب الجوز المحفور يحيط بوجه ذهبي نضير وبندول نحاسي يصدر صوتاً موسيقياً عند كل ساعة.',
+    reviewsList:[{user:'عبدالعزيز ح.',rating:5,text:'زيّنت بها غرفة الاستقبال، الضيوف يعجبون',date:'8 مارس 2025'}]},
+  { id:24, name:'ساعة حائط حديثة مينيمال',       brand:'Umbra',        cat:'wall_clocks',  sub:'حديث',       emoji:'⬜', price:850,    oldPrice:1100,  rating:4.6, reviews:312, stock:'available', discount:23,
+    specs:{movement:'كوارتز صامت',material:'ألومنيوم مطفي',diameter:'40cm',water:'—',warranty:'سنة'},
+    description:'التصميم المينيمالي الأكثر مبيعاً. بدون أرقام، عقارب نحيلة، وحركة صامتة تماماً. تناسب كل ديكور عصري.',
+    reviewsList:[{user:'نورا س.',rating:5,text:'هادئة تماماً لا تصدر أي صوت، مثالية لغرفة النوم',date:'15 أبريل 2025'}]},
+  { id:25, name:'ساعة حائط ديجيتال LED',          brand:'TechTime',     cat:'wall_clocks',  sub:'ديجيتال',    emoji:'📟', price:1400,   oldPrice:1800,  rating:4.5, reviews:234, stock:'available', discount:22,
+    specs:{movement:'رقمي',material:'بلاستيك ABS',diameter:'45cm',water:'—',warranty:'سنة'},
+    description:'شاشة LED ساطعة تعرض الوقت والتاريخ ودرجة الحرارة. تحكم بالريموت وإضاءة ليلية خافتة للغرف.',
+    reviewsList:[{user:'سعود ج.',rating:4,text:'عملية جداً، أعجبتني الإضاءة الليلية',date:'20 مارس 2025'}]},
+  { id:26, name:'ساعة حائط فيكتوريانية خشب',     brand:'Hermle',       cat:'wall_clocks',  sub:'كلاسيكي',    emoji:'🏛️', price:5800,   oldPrice:6500,  rating:4.9, reviews:67,  stock:'available', discount:11,
+    specs:{movement:'ميكانيكي بندول',material:'خشب البلوط',diameter:'55cm',water:'—',warranty:'3 سنوات'},
+    description:'ميراث الصنعة الألمانية الأصيلة. دقات كل 15 دقيقة بلحن كلوك هايم الشهير. خشب بلوط منحوت يدوياً.',
+    reviewsList:[{user:'إبراهيم م.',rating:5,text:'قطعة أثاث أكثر من مجرد ساعة، ورثاء',date:'2 فبراير 2025'}]},
+  { id:27, name:'ساعة حائط دائرية معدن ذهب',     brand:'Nextime',      cat:'wall_clocks',  sub:'حديث',       emoji:'🔶', price:620,    oldPrice:800,   rating:4.5, reviews:198, stock:'available', discount:23,
+    specs:{movement:'كوارتز صامت',material:'معدن مطلي بالذهب',diameter:'35cm',water:'—',warranty:'سنة'},
+    description:'إطار معدني مطلي بالذهب بتصميم دائري نقي. مثالية للمطابخ وغرف الاستقبال الحديثة.',
+    reviewsList:[{user:'مريم ط.',rating:4,text:'جميلة ورخيصة، ممتازة للهدايا',date:'12 أبريل 2025'}]},
+
+  // ===== ALARM CLOCKS =====
+  { id:28, name:'منبه ديجيتال ذكي بتقنية NFC',   brand:'iHome',        cat:'alarm_clocks', sub:'ذكي',        emoji:'📱', price:480,    oldPrice:600,   rating:4.5, reviews:321, stock:'available', discount:20,
+    specs:{movement:'رقمي',material:'بلاستيك مطفي',diameter:'12cm',water:'—',warranty:'سنة'},
+    description:'يشحن هاتفك لاسلكياً أثناء نومك. إضاءة ليلية قابلة للتعديل، صوت صحو تدريجي ومنبهان مستقلان.',
+    reviewsList:[{user:'سامي ع.',rating:5,text:'أفضل منبه جربته، الشحن اللاسلكي ميزة رائعة',date:'3 أبريل 2025'}]},
+  { id:29, name:'منبه تناظري كلاسيكي نحاسي',     brand:'Rhythm',       cat:'alarm_clocks', sub:'تناظري',     emoji:'⏰', price:380,    oldPrice:480,   rating:4.6, reviews:456, stock:'available', discount:21,
+    specs:{movement:'ميكانيكي',material:'نحاس ومعدن',diameter:'14cm',water:'—',warranty:'سنة'},
+    description:'المنبه الكلاسيكي الذي لا يُعوَّض. جرسان من المعدن يصدران رنيناً قوياً، مثالي لمن ينام عميقاً.',
+    reviewsList:[{user:'عمر ش.',rating:5,text:'يصحيك بجرسه القوي مهما كنت نايماً',date:'10 مارس 2025'}]},
+  { id:30, name:'منبه ضوئي طلوع الشمس',          brand:'Philips Wake', cat:'alarm_clocks', sub:'ذكي',        emoji:'🌅', price:920,    oldPrice:1100,  rating:4.8, reviews:234, stock:'available', discount:16,
+    specs:{movement:'رقمي',material:'بلاستيك ABS',diameter:'15cm',water:'—',warranty:'سنة'},
+    description:'استيقظ بطريقة طبيعية. يحاكي ضوء شروق الشمس مع موسيقى هادئة تدريجياً. يعزز إيقاع النوم الطبيعي.',
+    reviewsList:[{user:'لمى ح.',rating:5,text:'غيّر طريقة صحوي تماماً، لا أشعر بالإجهاد بعد الصحو',date:'18 مارس 2025'}]},
+  { id:31, name:'منبه رقمي بمتحكم صوتي',         brand:'Amazon Echo',  cat:'alarm_clocks', sub:'ذكي',        emoji:'🔊', price:750,    oldPrice:950,   rating:4.4, reviews:678, stock:'available', discount:21,
+    specs:{movement:'رقمي',material:'قماش وبلاستيك',diameter:'10cm',water:'—',warranty:'سنة'},
+    description:'منبه ذكي بتحكم صوتي كامل. اضبط المنبه والأضواء والموسيقى بصوتك فقط. متزامن مع تقويمك.',
+    reviewsList:[{user:'جابر أ.',rating:4,text:'عملي جداً وممتاز مع الأجهزة الذكية',date:'25 أبريل 2025'}]},
+  { id:32, name:'منبه تناظري صامت للأطفال',       brand:'Hama',         cat:'alarm_clocks', sub:'تناظري',     emoji:'🐻', price:220,    oldPrice:280,   rating:4.7, reviews:389, stock:'available', discount:21,
+    specs:{movement:'كوارتز صامت',material:'بلاستيك ملون',diameter:'10cm',water:'—',warranty:'سنة'},
+    description:'تصميم مرح للأطفال بأرقام كبيرة وعقارب ملونة. حركة صامتة لا تزعج النوم. متاح بـ 5 ألوان مبهجة.',
+    reviewsList:[{user:'أم عبدالله.',rating:5,text:'ابني أحبها جداً وحرص على الصحو وحده',date:'8 أبريل 2025'}]},
+
+  // ===== SMART =====
+  { id:33, name:'أبل واتش ألترا 2',              brand:'Apple',        cat:'smart',         sub:'الكل',       emoji:'📲', price:4500,   oldPrice:5200,  rating:4.6, reviews:432, stock:'available', discount:13,
+    specs:{movement:'ذكي',material:'تيتانيوم',diameter:'49mm',water:'100م',warranty:'سنة'},
+    description:'أقوى ساعة أبل على الإطلاق. مصممة للغوص والتسلق والسباقات. بطارية 60 ساعة وشاشة دائماً مضاءة.',
+    reviewsList:[{user:'راشد م.',rating:5,text:'أفضل ساعة ذكية في السوق بلا منافس',date:'1 أبريل 2025'}]},
+  { id:34, name:'سامسونغ غالاكسي واتش 7',         brand:'Samsung',      cat:'smart',         sub:'الكل',       emoji:'🟢', price:1800,   oldPrice:2200,  rating:4.4, reviews:567, stock:'available', discount:18,
+    specs:{movement:'ذكي',material:'ألومنيوم',diameter:'46mm',water:'50م',warranty:'سنة'},
+    description:'تقنية AI متطورة لتحليل صحتك. يقيس الجلوكوز ويحلل نمط النوم ويتتبع 100 رياضة مختلفة.',
+    reviewsList:[{user:'يوسف ك.',rating:4,text:'قيمة ممتازة مقابل السعر',date:'7 أبريل 2025'}]},
+  { id:35, name:'هواوي GT4 الفاخرة',              brand:'Huawei',       cat:'smart',         sub:'الكل',       emoji:'🔵', price:1650,   oldPrice:2000,  rating:4.5, reviews:398, stock:'available', discount:18,
+    specs:{movement:'ذكي',material:'استيل وسيراميك',diameter:'46mm',water:'50م',warranty:'سنة'},
+    description:'تصميم فاخر يشبه الساعات التقليدية مع تقنية ذكية. بطارية تدوم 14 يوم وقياس دقيق للصحة.',
+    reviewsList:[{user:'مازن ق.',rating:5,text:'تصميمها يشبه الساعات الفاخرة وتقنيتها متطورة',date:'12 أبريل 2025'}]},
+
+  // ===== REMAINING LUXURY =====
+  { id:36, name:'رولكس سبماريونر',               brand:'Rolex',        cat:'men_watches',  sub:'استيل',      emoji:'⌚', price:85000,  oldPrice:null,  rating:4.9, reviews:142, stock:'available', discount:null,
+    specs:{movement:'أوتوماتيك',material:'ستيل وذهب',diameter:'41mm',water:'300م',warranty:'5 سنوات'},
+    description:'الساعة الأيقونية التي لا تحتاج تعريفاً. مزيج مثالي من الأناقة والمتانة والتاريخ العريق.',
+    reviewsList:[{user:'أحمد م.',rating:5,text:'ساعة استثنائية بكل المقاييس',date:'15 مارس 2025'}]},
+  { id:37, name:'باتيك فيليب كالاتروفا',          brand:'Patek Philippe',cat:'men_watches',  sub:'جلدية',      emoji:'🏅', price:320000, oldPrice:null,  rating:5.0, reviews:34,  stock:'available', discount:null,
+    specs:{movement:'يدوي',material:'ذهب أبيض 18 قيراط',diameter:'38mm',water:'30م',warranty:'مدى الحياة'},
+    description:'تقتني باتيك لجيلك القادم. قمة الصناعة السويسرية. كل ساعة تستغرق أكثر من عام لصنعها يدوياً.',
+    reviewsList:[{user:'وليد ح.',rating:5,text:'لا كلمات تصف هذه التحفة الفنية',date:'10 فبراير 2025'}]},
+  { id:38, name:'برايتلينغ نافيتيمر',             brand:'Breitling',    cat:'men_watches',  sub:'شبابية',     emoji:'✈️', price:55000,  oldPrice:62000, rating:4.8, reviews:76,  stock:'low',       discount:11,
+    specs:{movement:'كرونوغراف أوتوماتيك',material:'ستيل',diameter:'46mm',water:'100م',warranty:'3 سنوات'},
+    description:'الساعة الرسمية للطيارين منذ 1952. مع الحاسبة الدائرية الشهيرة لحساب المسافات والوقود.',
+    reviewsList:[{user:'طارق ب.',rating:5,text:'ساعة رجال بامتياز، مميزة جداً',date:'8 أبريل 2025'}]},
+  { id:39, name:'هوبلوت بيغ بانغ سيراميك',        brand:'Hublot',       cat:'men_watches',  sub:'استيل',      emoji:'⚫', price:76000,  oldPrice:85000, rating:4.7, reviews:108, stock:'available', discount:11,
+    specs:{movement:'أوتوماتيك',material:'سيراميك وتيتانيوم',diameter:'44mm',water:'100م',warranty:'4 سنوات'},
+    description:'ثورة في عالم الساعات. جماليات جريئة ومواد من المستقبل. السيراميك الأسود يمنحها طابعاً فريداً.',
+    reviewsList:[{user:'عمر ز.',rating:5,text:'الأجرأ تصميماً والأمتن بناءً',date:'12 أبريل 2025'}]},
+  { id:40, name:'شوبار هابي دايموندز نسائي',      brand:'Chopard',      cat:'women_watches', sub:'موضة',       emoji:'💎', price:95000,  oldPrice:null,  rating:4.9, reviews:67,  stock:'available', discount:null,
+    specs:{movement:'أوتوماتيك',material:'ذهب وردي وألماس',diameter:'36mm',water:'30م',warranty:'3 سنوات'},
+    description:'للمرأة التي تستحق الأفضل. ألماس حقيقي يتراقص في قلب الساعة مع كل حركة. قطعة فنية حية.',
+    reviewsList:[{user:'نورة س.',rating:5,text:'هدية عيد زواجنا، أجمل ساعة رأيتها',date:'14 فبراير 2025'}]},
+
+  // ===== ALIEXPRESS PRODUCTS =====
+  { id:41, name:'ساعة ذكية بشاشة لمس كاملة مع اتصال بلوتوث', brand:'SmartLife',   cat:'aliexpress', sub:'ساعات ذكية',
+    emoji:'📱', price:75, oldPrice:550, rating:4.4, reviews:2261, stock:'available', discount:86,
+    image:'https://ae-pic-a1.aliexpress-media.com/kf/S03cff4f2c9d448789f108c878e991a98w.jpg_480x480q75.jpg',
+    aliexpress_url:'https://www.aliexpress.com/item/3256807692502654.html',
+    specs:{movement:'ذكي',material:'بلاستيك وستيل',diameter:'44mm',water:'مقاوم للماء',warranty:'سنة'},
+    description:'ساعة ذكية عصرية بشاشة لمس كاملة تدعم الاتصال الهاتفي والرسائل والتنبيهات. تتحكم في الموسيقى وتتابع نشاطك الرياضي بسهولة. متوافقة مع أجهزة iPhone وأندرويد.',
+    reviewsList:[{user:'محمد ع.',rating:5,text:'ساعة رائعة بسعر ممتاز',date:'5 أبريل 2025'}]},
+
+  { id:42, name:'ساعة ذكية لاسلكية مع شاشة HD 2.01 إنش', brand:'TechWear',    cat:'aliexpress', sub:'ساعات ذكية',
+    emoji:'⌚', price:35, oldPrice:580, rating:4.6, reviews:485, stock:'available', discount:94,
+    image:'https://ae-pic-a1.aliexpress-media.com/kf/S6184255a28ee45e3b9b5aec6b09197f87.jpg_480x480q75.jpg',
+    aliexpress_url:'https://www.aliexpress.com/item/3256808971471173.html',
+    specs:{movement:'ذكي',material:'بلاستيك',diameter:'46mm',water:'مقاوم للبخار',warranty:'سنة'},
+    description:'ساعة ذكية بشاشة عرض عالية الدقة 2.01 إنش مع إمكانية الاتصال اللاسلكي وتنبيهات الرسائل. تدعم أكثر من 100 وضع رياضي مع خلفيات قابلة للتخصيص. للرجال والنساء.',
+    reviewsList:[{user:'ريم س.',rating:4,text:'جميلة جداً وخفيفة الوزن',date:'8 أبريل 2025'}]},
+
+  { id:43, name:'ساعة ذكية 1.83 إنش مع مراقبة النوم والخطوات', brand:'FitPro',     cat:'aliexpress', sub:'ساعات ذكية',
+    emoji:'🏃', price:66, oldPrice:673, rating:4.4, reviews:64, stock:'available', discount:90,
+    image:'https://ae-pic-a1.aliexpress-media.com/kf/Sc86fbac9aa564e698dd41fd994d8eb80E.jpg_480x480q75.jpg',
+    aliexpress_url:'https://www.aliexpress.com/item/3256809966120638.html',
+    specs:{movement:'ذكي',material:'سيليكون',diameter:'45mm',water:'مقاوم للماء IP67',warranty:'سنة'},
+    description:'ساعة ذكية متكاملة بشاشة 1.83 إنش تراقب نبضات القلب وجودة النوم وتعد خطواتك اليومية. تتلقى الرسائل والمكالمات مباشرة على معصمك. متوافقة مع iOS وأندرويد.',
+    reviewsList:[{user:'أحمد ك.',rating:5,text:'مراقبة النوم دقيقة جداً',date:'2 أبريل 2025'}]},
+
+  { id:44, name:'ساعة ذكية 2026 بشاشة HD بلوتوث 120+ رياضة', brand:'SportMax',   cat:'aliexpress', sub:'ساعات ذكية',
+    emoji:'💪', price:110, oldPrice:597, rating:4.4, reviews:172, stock:'available', discount:82,
+    image:'https://ae-pic-a1.aliexpress-media.com/kf/Sba41bee1dcac4e1ca49bdbb76f1c42c1d.jpg_480x480q75.jpg',
+    aliexpress_url:'https://www.aliexpress.com/item/3256810480433096.html',
+    specs:{movement:'ذكي',material:'ألومنيوم وسيليكون',diameter:'46mm',water:'مقاوم للماء IP68',warranty:'سنة'},
+    description:'ساعة ذكية 2026 بشاشة HD مضيئة مع اتصال بلوتوث وأكثر من 120 وضع رياضي. تراقب معدل ضربات القلب وتتتبع نشاطك على مدار الساعة. هدية مثالية للرجال والنساء.',
+    reviewsList:[{user:'فيصل م.',rating:5,text:'أفضل ساعة ذكية جربتها بهذا السعر',date:'10 أبريل 2025'}]},
+
+  { id:45, name:'ساعة ذكية رجالية 2025 بحزامين وخاصية المصباح', brand:'MenWatch',  cat:'aliexpress', sub:'ساعات رجالية',
+    emoji:'🔦', price:94, oldPrice:611, rating:4.3, reviews:165, stock:'available', discount:85,
+    image:'https://ae-pic-a1.aliexpress-media.com/kf/S458873e572a9419983837bce0317106cT.jpg_480x480q75.jpg',
+    aliexpress_url:'https://www.aliexpress.com/item/3256810219838448.html',
+    specs:{movement:'ذكي',material:'ستيل وسيليكون',diameter:'46mm',water:'مقاوم للماء',warranty:'سنة'},
+    description:'ساعة ذكية رجالية 2025 مع حزامين قابلَين للتبديل (ستيل + سيليكون). تعد خطواتك وتتتبع حركتك مع إضاءة LED مدمجة. تصميم متين وأنيق للرجل العصري.',
+    reviewsList:[{user:'عبدالرحمن ب.',rating:4,text:'الحزامان معاً ميزة رائعة',date:'15 أبريل 2025'}]},
+
+  { id:46, name:'ساعة LAXASFIT الذكية بلوتوث مع مراقبة القلب', brand:'LAXASFIT',  cat:'aliexpress', sub:'ساعات ذكية',
+    emoji:'❤️', price:48, oldPrice:170, rating:4.9, reviews:10000, stock:'available', discount:72,
+    image:'https://ae-pic-a1.aliexpress-media.com/kf/Sa82a2c18c6d04220b9455c443e3436e47.png_480x480.png',
+    aliexpress_url:'https://www.aliexpress.com/item/1005008830601930.html',
+    specs:{movement:'ذكي',material:'بلاستيك متين',diameter:'44mm',water:'مقاوم للماء IP67',warranty:'سنة'},
+    description:'ساعة ذكية LAXASFIT الأكثر مبيعاً مع اتصال بلوتوث ومراقبة دقيقة لنبضات القلب. تنبيهات الرسائل والمكالمات فورية. للرجال والنساء، متوافقة مع أندرويد وiOS.',
+    reviewsList:[{user:'هدى ر.',rating:5,text:'أكثر من 10,000 مبيعة وسبب واضح، ممتازة',date:'1 أبريل 2025'}]},
+
+  { id:47, name:'ساعة رجالية كوارتز فاخرة مضادة للماء بتاريخ', brand:'LuxMan',    cat:'aliexpress', sub:'ساعات رجالية',
+    emoji:'🕰️', price:13, oldPrice:250, rating:4.6, reviews:512, stock:'available', discount:94,
+    image:'https://ae-pic-a1.aliexpress-media.com/kf/S9970897ffbd44220a4e33803819c9610W.jpg_480x480q75.jpg',
+    aliexpress_url:'https://www.aliexpress.com/item/3256809760787937.html',
+    specs:{movement:'كوارتز',material:'ستيل لا يصدأ',diameter:'42mm',water:'مقاوم للماء 30م',warranty:'سنة'},
+    description:'ساعة رجالية بحركة كوارتز دقيقة مع مؤشر التاريخ والأسبوع. عقارب مضيئة للقراءة في الظلام. هيكل ستيل لا يصدأ أنيق ومتين لكل الأيام.',
+    reviewsList:[{user:'خالد ص.',rating:5,text:'سعر لا يصدق مقابل هذه الجودة',date:'18 مارس 2025'}]},
+
+  { id:48, name:'ساعة CILOA رياضية مربعة فاخرة للرجال 2025', brand:'CILOA',     cat:'aliexpress', sub:'ساعات رياضية',
+    emoji:'⬛', price:297, oldPrice:730, rating:4.9, reviews:1000, stock:'available', discount:59,
+    image:'https://ae-pic-a1.aliexpress-media.com/kf/S08ddaa8d926a489985ba3d571ce9ff1bg.png_480x480.png',
+    aliexpress_url:'https://www.aliexpress.com/item/3256810034052166.html',
+    specs:{movement:'كوارتز',material:'ستيل لا يصدأ',diameter:'45mm',water:'مقاوم للماء 50م',warranty:'سنة'},
+    description:'ساعة CILOA رجالية بتصميم مربع أنيق لعام 2025. حزام ستيل لا يصدأ مع قرص أسود أنيق. تصميم Light Luxury فاخر مناسب للهدايا والمناسبات الرسمية.',
+    reviewsList:[{user:'ناصر ع.',rating:5,text:'هدية مميزة بامتياز، شكلها فاخر جداً',date:'5 أبريل 2025'}]},
+
+  { id:49, name:'ساعة ذكية 1.44 إنش مع قياس الأكسجين والضغط', brand:'HealthTrack',cat:'aliexpress', sub:'ساعات ذكية',
+    emoji:'🌡️', price:115, oldPrice:254, rating:4.4, reviews:5000, stock:'available', discount:55,
+    image:'https://ae-pic-a1.aliexpress-media.com/kf/S7a7cf92cca814618a2d588365299b9e9H.jpg_480x480q75.jpg',
+    aliexpress_url:'https://www.aliexpress.com/item/3256808237532150.html',
+    specs:{movement:'ذكي',material:'سيليكون وبلاستيك',diameter:'44mm',water:'مقاوم للماء IP67',warranty:'سنة'},
+    description:'ساعة ذكية متقدمة بشاشة ملونة 1.44 إنش مع قياس مستوى الأكسجين في الدم وضغط الدم. اتصال بلوتوث مع الهاتف لاستقبال الاتصالات والرسائل. للرجال والنساء.',
+    reviewsList:[{user:'سلمى ح.',rating:4,text:'قياس الأكسجين دقيق ومفيد جداً',date:'12 مارس 2025'}]},
+
+  { id:50, name:'ساعة Y68 الذكية متعددة الوظائف مع تتبع اللياقة', brand:'FitnessY', cat:'aliexpress', sub:'ساعات رياضية',
+    emoji:'🏋️', price:13, oldPrice:47, rating:4.5, reviews:8900, stock:'available', discount:71,
+    image:'https://ae-pic-a1.aliexpress-media.com/kf/S2a3f33da4c184df884e8e0f13e98c189p.jpg_480x480q75.jpg',
+    aliexpress_url:'https://www.aliexpress.com/item/3256808237532150.html',
+    specs:{movement:'ذكي',material:'بلاستيك مرن',diameter:'42mm',water:'مقاوم للماء',warranty:'سنة'},
+    description:'ساعة Y68 الذكية الأكثر مبيعاً عالمياً. تتصل ببلوتوث وتتحكم في الموسيقى وتتبع اللياقة البدنية ومعدل ضربات القلب. سوار رياضي خفيف ومريح للاستخدام اليومي.',
+    reviewsList:[{user:'يوسف م.',rating:5,text:'أصغر ساعة ذكية جربتها وأعملها',date:'20 أبريل 2025'}]},
+];
+
+const ORDERS_DATA = [
+  { id:'WD-2025-0087', date:'12 أبريل 2025', status:'delivered', items:[PRODUCTS.find(p=>p.id===36),PRODUCTS.find(p=>p.id===13)], total:113000 },
+  { id:'WD-2025-0074', date:'28 مارس 2025',  status:'delivered', items:[PRODUCTS.find(p=>p.id===40)], total:95000 },
+  { id:'WD-2025-0062', date:'15 مارس 2025',  status:'processing', items:[PRODUCTS.find(p=>p.id===33)], total:4500 },
+  { id:'WD-2025-0051', date:'5 مارس 2025',   status:'shipping',  items:[PRODUCTS.find(p=>p.id===14),PRODUCTS.find(p=>p.id===38)], total:97000 },
+  { id:'WD-2025-0040', date:'20 فبراير 2025',status:'delivered', items:[PRODUCTS.find(p=>p.id===37)], total:320000 },
+];
+
+// ========================= PROFILE STATE =========================
+let userProfile = JSON.parse(localStorage.getItem('wajdi_profile') || 'null') || {
+  name:'وجدي الدُبعي', email:'wajdi@dubai-watches.com',
+  phone:'+966 50 123 4567', city:'الرياض', birthdate:'1990-01-01', gender:'male',
+  avatar:'👤'
+};
+let addresses = JSON.parse(localStorage.getItem('wajdi_addrs') || 'null') || [
+  { id:1, label:'البيت', name:'وجدي الدُبعي', phone:'+966 50 123 4567', city:'الرياض', district:'حي النزهة', street:'شارع الأمير محمد', zip:'12345', isDefault:true },
+  { id:2, label:'العمل', name:'وجدي الدُبعي', phone:'+966 50 123 4567', city:'الرياض', district:'حي العليا', street:'شارع العروبة', zip:'12211', isDefault:false },
+];
+let paymentMethods = JSON.parse(localStorage.getItem('wajdi_payments') || 'null') || [
+  { id:1, type:'visa', last4:'4242', name:'وجدي الدُبعي', expiry:'12/27', isDefault:true },
+  { id:2, type:'mada', last4:'1234', name:'وجدي الدُبعي', expiry:'08/26', isDefault:false },
+];
+let notifications = [
+  { id:1, icon:'📦', title:'تم شحن طلبك', body:'طلب WD-2025-0062 في الطريق إليك', time:'منذ ساعة', read:false },
+  { id:2, icon:'🔥', title:'عرض خاص لك', body:'خصم 20% على الساعات الذكية اليوم فقط', time:'منذ 3 ساعات', read:false },
+  { id:3, icon:'⭐', title:'قيّم تجربتك', body:'كيف كان طلبك WD-2025-0074؟', time:'منذ يومين', read:false },
+  { id:4, icon:'✅', title:'تم التسليم', body:'استلمت طلب WD-2025-0074 بنجاح', time:'منذ 3 أيام', read:true },
+];
+
+// ========================= APP STATE =========================
+let cart = JSON.parse(localStorage.getItem('wajdi_cart') || '[]');
+let favorites = JSON.parse(localStorage.getItem('wajdi_favs') || '[3,7]');
+let currentFilter = 'all';
+let selectedShipping = 'express';
+let selectedPayment = 'card';
+let currentCheckoutStep = 1;
+
+// ========================= INIT =========================
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('splash').classList.add('hide');
+    document.getElementById('app').style.opacity = '1';
+    renderHome(); renderProducts(); renderCart(); renderOrders(); renderProfileHero();
+    updateBadge(); updateFavBadge();
+  }, 2200);
+});
+
+// ========================= NAVIGATION =========================
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  const nb = document.getElementById('nav-'+name);
+  if (nb) nb.classList.add('active');
+  if (name==='cart') renderCart();
+  if (name==='orders') renderOrders();
+  if (name==='profile') renderProfileHero();
+}
+
+// ========================= HOME =========================
+function renderHome() {
+  renderHScroll('featured-scroll', PRODUCTS.filter(p=>[36,37,40,7,17,19].includes(p.id)));
+  renderHScroll('offers-scroll', PRODUCTS.filter(p=>p.discount && p.discount>=15).slice(0,8));
+  renderHScroll('bestsellers-scroll', PRODUCTS.filter(p=>p.reviews>200).slice(0,8));
+}
+function renderHScroll(id, prods) {
+  const c = document.getElementById(id); if(!c) return;
+  c.innerHTML = prods.map(p => cardH(p)).join('');
+}
+function cardH(p) {
+  const f = favorites.includes(p.id);
+  const imgHtml = p.image ? `<img src="${p.image}" alt="${p.name}" onerror="this.style.display='none'">` : '';
+  return `<div class="prod-card-h" onclick="openDetail(${p.id})">
+    <div class="card-img">${imgHtml}<span class="emoji-fallback">${p.emoji}</span>
+      <button class="card-fav ${f?'active':''}" onclick="event.stopPropagation();toggleFav(${p.id},this)">${f?'❤️':'🤍'}</button>
+      ${p.discount?`<div class="card-badge">-${p.discount}%</div>`:''}
+    </div>
+    <div class="card-body">
+      <div class="card-brand">${p.brand}</div>
+      <div class="card-name">${p.name}</div>
+      <div class="card-rating"><span class="stars">⭐${p.rating}</span><span class="rating-count">(${p.reviews})</span></div>
+      <div class="card-price-row">
+        <div><div class="card-price">${fmtP(p.price)}</div>${p.oldPrice?`<div class="card-price-old">${fmtP(p.oldPrice)}</div>`:''}</div>
+        <button class="card-add" onclick="event.stopPropagation();addToCart(${p.id})">+</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ========================= PRODUCTS =========================
+function renderProducts(filter) {
+  filter = filter || currentFilter;
+  const g = document.getElementById('products-grid'); if(!g) return;
+  let list = filter==='all' ? PRODUCTS : PRODUCTS.filter(p=>p.cat===filter||p.sub===filter);
+  g.innerHTML = list.map(p=>cardV(p)).join('');
+}
+function cardV(p) {
+  const f = favorites.includes(p.id);
+  const imgHtml = p.image ? `<img src="${p.image}" alt="${p.name}" onerror="this.style.display='none'">` : '';
+  return `<div class="prod-card-v" onclick="openDetail(${p.id})">
+    <div class="card-img">${imgHtml}<span class="emoji-fallback">${p.emoji}</span>
+      <button class="card-fav ${f?'active':''}" onclick="event.stopPropagation();toggleFav(${p.id},this)">${f?'❤️':'🤍'}</button>
+      ${p.discount?`<div class="card-badge">-${p.discount}%</div>`:''}
+    </div>
+    <div class="card-body">
+      <div class="card-brand">${p.brand}</div>
+      <div class="card-name">${p.name}</div>
+      <div class="card-rating"><span class="stars">⭐${p.rating}</span><span class="rating-count">(${p.reviews})</span></div>
+      <div class="card-price-row">
+        <div><div class="card-price">${fmtP(p.price)}</div>${p.oldPrice?`<div class="card-price-old">${fmtP(p.oldPrice)}</div>`:''}</div>
+        <button class="card-add" onclick="event.stopPropagation();addToCart(${p.id})">+</button>
+      </div>
+    </div>
+  </div>`;
+}
+function setFilter(f, el) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active'); renderProducts(f);
+}
+function setCatChip(el, f) {
+  document.querySelectorAll('.cat-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  if (f!=='all') { currentFilter=f; showScreen('products'); renderProducts(f); }
+}
+
+// ========================= CATEGORY PAGE =========================
+function openCategoryPage(catKey) {
+  const cat = CATEGORIES[catKey]; if(!cat) return;
+  const prods = PRODUCTS.filter(p=>p.cat===catKey);
+  let activeSub = 'الكل';
+  const div = document.createElement('div');
+  div.className = 'full-layer';
+  div.id = 'cat-page-layer';
+  const render = (sub) => {
+    activeSub = sub;
+    const filtered = sub==='الكل' ? prods : prods.filter(p=>p.sub===sub);
+    div.innerHTML = `
+      <div class="full-layer-header">
+        <button class="back-btn" onclick="document.getElementById('cat-page-layer').remove()">←</button>
+        <span style="font-size:18px;font-weight:700;font-family:var(--font-ar);color:var(--text);">${cat.label}</span>
+        <span style="margin-right:auto;font-size:22px;">${cat.icon}</span>
+      </div>
+      <div class="cat-page-banner">
+        <div class="banner-info">
+          <div class="b-title">${cat.label}</div>
+          <div class="b-count">${filtered.length} منتج</div>
+        </div>
+        <span class="banner-icon">${cat.icon}</span>
+      </div>
+      <div class="sub-cat-bar">
+        ${cat.subs.map(s=>`<div class="sub-pill ${s===activeSub?'active':''}" onclick="catSubFilter(${JSON.stringify(catKey)},${JSON.stringify(s)})">${s}</div>`).join('')}
+      </div>
+      <div class="products-grid" style="margin-top:0;">${filtered.length ? filtered.map(p=>cardV(p)).join('') : '<div style="grid-column:span 2;text-align:center;padding:40px;color:var(--text3);font-family:var(--font-ar);">لا توجد منتجات في هذا القسم</div>'}</div>
+      <div style="height:20px;"></div>
+    `;
+  };
+  render('الكل');
+  document.body.appendChild(div);
+  window._catPageKey = catKey;
+  window._catPageRender = render;
+}
+function catSubFilter(catKey, sub) {
+  if (window._catPageRender) window._catPageRender(sub);
+}
+
+// ========================= DETAIL =========================
+function openDetail(id) {
+  const p = PRODUCTS.find(x=>x.id===id); if(!p) return;
+  const f = favorites.includes(id);
+  const imgHtml = p.image ? `<img src="${p.image}" alt="${p.name}" onerror="this.style.display='none'">` : '';
+  document.getElementById('detail-brand-header').textContent = p.brand;
+  document.getElementById('detail-content').innerHTML = `
+    <div class="detail-img-gallery">${imgHtml}<span style="position:relative;z-index:1;">${p.image?'':p.emoji}</span></div>
+    <div class="img-dots"><div class="img-dot active"></div><div class="img-dot"></div><div class="img-dot"></div></div>
+    <div class="detail-body">
+      <div class="detail-brand">${p.brand}</div>
+      <div class="detail-name">${p.name}</div>
+      <div class="detail-rating-row">
+        <span style="color:var(--gold);font-size:16px;">⭐${p.rating}</span>
+        <span style="font-size:13px;color:var(--text2);">(${p.reviews} تقييم)</span>
+        <span class="availability-badge ${p.stock==='available'?'available':'low'}">${p.stock==='available'?'✓ متوفر':'⚡ كميات محدودة'}</span>
+      </div>
+      <div class="detail-price-row">
+        <div class="detail-price">${fmtP(p.price)}</div>
+        ${p.oldPrice?`<div class="detail-price-old">${fmtP(p.oldPrice)}</div>`:''}
+        ${p.discount?`<div class="detail-discount">-${p.discount}%</div>`:''}
+      </div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:16px;line-height:1.6;font-family:var(--font-ar);">${p.description}</div>
+      <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px;font-family:var(--font-ar);">المواصفات التقنية</div>
+      <div class="specs-grid">
+        <div class="spec-item"><div class="spec-label">الحركة</div><div class="spec-value">${p.specs.movement}</div></div>
+        <div class="spec-item"><div class="spec-label">الخامة</div><div class="spec-value">${p.specs.material}</div></div>
+        <div class="spec-item"><div class="spec-label">الحجم</div><div class="spec-value">${p.specs.diameter}</div></div>
+        <div class="spec-item"><div class="spec-label">مقاومة الماء</div><div class="spec-value">${p.specs.water}</div></div>
+        <div class="spec-item"><div class="spec-label">الضمان</div><div class="spec-value">${p.specs.warranty}</div></div>
+        <div class="spec-item"><div class="spec-label">الحالة</div><div class="spec-value" style="color:var(--success)">جديدة 100%</div></div>
+      </div>
+      <div class="detail-actions">
+        <button class="btn-cart" onclick="addToCart(${p.id});closeDetailModal()">🛒 أضف إلى السلة</button>
+        <button class="btn-fav2 ${f?'active':''}" id="d-fav" onclick="toggleFavD(${p.id})">${f?'❤️':'🤍'}</button>
+        <button class="btn-share2" onclick="shareProduct('${p.name}')">📤</button>
+      </div>
+      ${p.aliexpress_url ? `<a href="${p.aliexpress_url}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;background:rgba(255,102,0,0.12);border:1px solid rgba(255,102,0,0.35);color:#FF6600;padding:12px;border-radius:14px;font-size:13px;font-weight:700;font-family:var(--font-ar);text-decoration:none;"><span>🛒</span> شراء من علي إكسبريس</a>` : ''}
+      <div style="margin-top:24px;">
+        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;font-family:var(--font-ar);">التقييمات (${p.reviews})</div>
+        ${p.reviewsList.map(r=>`<div class="review-card"><div class="review-header"><span class="reviewer-name">👤 ${r.user}</span><span class="review-date">${r.date}</span></div><div style="margin-bottom:4px;">⭐⭐⭐⭐⭐</div><div class="review-text">${r.text}</div></div>`).join('')}
+        <button onclick="showToast('شكراً! سيُضاف تقييمك قريباً')" style="width:100%;background:var(--surface);border:1px dashed var(--border);border-radius:12px;padding:12px;color:var(--text2);cursor:pointer;font-family:var(--font-ar);font-size:13px;margin-top:4px;">✍️ أضف تقييمك</button>
+      </div>
+    </div>`;
+  document.getElementById('detail-overlay').classList.add('open');
+  document.getElementById('detail-sheet').classList.add('open');
+}
+function closeDetailModal() {
+  document.getElementById('detail-overlay').classList.remove('open');
+  document.getElementById('detail-sheet').classList.remove('open');
+}
+function toggleFavD(id) {
+  toggleFav(id);
+  const b = document.getElementById('d-fav'); if(!b) return;
+  const f = favorites.includes(id);
+  b.classList.toggle('active', f); b.textContent = f?'❤️':'🤍';
+}
+
+// ========================= CART =========================
+function addToCart(id) {
+  const p = PRODUCTS.find(x=>x.id===id); if(!p) return;
+  const ex = cart.find(c=>c.id===id);
+  if(ex) ex.qty++; else cart.push({id,qty:1});
+  saveCart(); updateBadge(); showToast(`✅ أُضيف إلى السلة`);
+}
+function removeFromCart(id) { cart=cart.filter(c=>c.id!==id); saveCart(); updateBadge(); renderCart(); }
+function changeQty(id,d) {
+  const it=cart.find(c=>c.id===id); if(!it) return;
+  it.qty+=d; if(it.qty<=0){removeFromCart(id);return;}
+  saveCart(); renderCart(); updateBadge();
+}
+function saveCart() { localStorage.setItem('wajdi_cart',JSON.stringify(cart)); }
+function updateBadge() {
+  const t=cart.reduce((s,c)=>s+c.qty,0);
+  document.getElementById('cart-badge').textContent=t;
+}
+function renderCart() {
+  const c=document.getElementById('cart-content'); if(!c) return;
+  if(!cart.length){
+    c.innerHTML=`<div class="cart-empty"><div style="font-size:80px;opacity:.4;">🛒</div><div style="font-size:16px;color:var(--text2);margin:16px 0;font-family:var(--font-ar);">سلتك فارغة</div><button class="btn-cart" style="width:auto;padding:12px 28px;" onclick="showScreen('products')">تصفح المنتجات</button></div>`;
+    return;
+  }
+  const sub=cart.reduce((s,ci)=>{const p=PRODUCTS.find(x=>x.id===ci.id);return s+(p?p.price*ci.qty:0);},0);
+  const tax=Math.round(sub*.1), ship=sub>50000?0:150, tot=sub+tax+ship;
+  c.innerHTML=`
+    ${cart.map(ci=>{const p=PRODUCTS.find(x=>x.id===ci.id);if(!p)return'';return`<div class="cart-item">
+      <div class="cart-item-img">${p.emoji}</div>
+      <div class="cart-item-info"><div class="cart-item-brand">${p.brand}</div><div class="cart-item-name">${p.name}</div><div class="cart-item-price">${fmtP(p.price*ci.qty)}</div>
+      <div class="qty-ctrl"><button class="qty-btn" onclick="changeQty(${p.id},-1)">−</button><span class="qty-val">${ci.qty}</span><button class="qty-btn" onclick="changeQty(${p.id},1)">+</button></div></div>
+      <button class="cart-item-del" onclick="removeFromCart(${p.id})">🗑️</button></div>`;}).join('')}
+    <div class="cart-summary">
+      <div class="promo-row"><input class="promo-input" type="text" placeholder="كود الخصم" dir="ltr"><button class="promo-btn" onclick="showToast('✅ تم تطبيق الخصم!')">تطبيق</button></div>
+      <div class="summary-row"><span class="label">المجموع الفرعي</span><span class="val">${fmtP(sub)}</span></div>
+      <div class="summary-row"><span class="label">الضريبة (10%)</span><span class="val">${fmtP(tax)}</span></div>
+      <div class="summary-row"><span class="label">الشحن</span><span class="val">${ship===0?'<span style="color:var(--success)">مجاناً</span>':fmtP(ship)}</span></div>
+      ${ship===0?'<div style="font-size:11px;color:var(--success);text-align:center;margin-bottom:8px;font-family:var(--font-ar);">🎉 تأهلت للشحن المجاني</div>':''}
+      <div class="summary-divider"></div>
+      <div class="summary-row summary-total"><span class="label">الإجمالي</span><span class="val">${fmtP(tot)}</span></div>
+    </div>
+    <button class="btn-checkout" onclick="openCheckout()"><span>إتمام الشراء</span><span>←</span></button>
+    <button onclick="showScreen('products')" style="display:block;text-align:center;color:var(--text2);font-size:13px;margin:0 auto 8px;background:none;border:none;cursor:pointer;font-family:var(--font-ar);">← متابعة التسوق</button>
+  `;
+}
+
+// ========================= FAVORITES =========================
+function toggleFav(id, btn) {
+  if(favorites.includes(id)){favorites=favorites.filter(f=>f!==id);if(btn){btn.textContent='🤍';btn.classList.remove('active');}showToast('💔 أُزيل من المفضلة');}
+  else{favorites.push(id);if(btn){btn.textContent='❤️';btn.classList.add('active');}showToast('❤️ أُضيف إلى المفضلة');}
+  localStorage.setItem('wajdi_favs',JSON.stringify(favorites));
+  updateFavBadge();
+}
+function updateFavBadge() {
+  document.getElementById('fav-badge-menu').textContent=favorites.length;
+  const fc=document.getElementById('fav-count'); if(fc) fc.textContent=favorites.length;
+}
+function showFavorites() {
+  const fp=PRODUCTS.filter(p=>favorites.includes(p.id));
+  const d=document.createElement('div'); d.className='full-layer';
+  d.innerHTML=`<div class="full-layer-header"><button class="back-btn" onclick="this.closest('.full-layer').remove()">←</button><span style="font-size:18px;font-weight:700;font-family:var(--font-ar);color:var(--text);">المفضلة (${fp.length})</span></div>
+  <div class="fav-grid">${fp.length?fp.map(p=>cardV(p)).join(''):'<div style="grid-column:span 2;text-align:center;padding:40px;color:var(--text3);font-family:var(--font-ar);">لا توجد منتجات في المفضلة</div>'}</div>`;
+  document.body.appendChild(d);
+}
+
+// ========================= PROFILE =========================
+function renderProfileHero() {
+  const sec=document.getElementById('profile-hero-section'); if(!sec) return;
+  const ordCount=ORDERS_DATA.length+cart.length;
+  sec.innerHTML=`<div class="profile-hero">
+    <div class="avatar">${userProfile.avatar}</div>
+    <div class="profile-name">${userProfile.name}</div>
+    <div class="profile-email">${userProfile.email}</div>
+    <div style="font-size:12px;color:var(--text3);margin-top:2px;font-family:var(--font-ar);">📞 ${userProfile.phone}</div>
+    <div class="profile-stats">
+      <div class="stat-item"><div class="stat-num" id="orders-count">${ordCount}</div><div class="stat-label">طلب</div></div>
+      <div class="stat-item"><div class="stat-num" id="fav-count">${favorites.length}</div><div class="stat-label">مفضلة</div></div>
+      <div class="stat-item"><div class="stat-num">4.9⭐</div><div class="stat-label">تقييم</div></div>
+    </div>
+    <button onclick="openEditProfile()" style="margin-top:14px;background:rgba(212,175,55,.15);border:1px solid var(--border);color:var(--gold);padding:8px 20px;border-radius:10px;font-family:var(--font-ar);cursor:pointer;font-size:13px;position:relative;z-index:1;">✏️ تعديل البيانات</button>
+  </div>`;
+  updateFavBadge();
+}
+
+// ---- EDIT PROFILE ----
+function openEditProfile() {
+  document.getElementById('edit-content').innerHTML=`
+    <div style="padding:16px 20px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <div style="font-size:18px;font-weight:700;font-family:var(--font-ar);color:var(--text);">تعديل البيانات</div>
+        <button onclick="closeEditModal()" style="width:36px;height:36px;background:var(--bg3);border:none;border-radius:10px;cursor:pointer;font-size:16px;color:var(--text2);">✕</button>
+      </div>
+      <div style="text-align:center;margin-bottom:20px;">
+        <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-dark));margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:36px;cursor:pointer;" onclick="chooseAvatar()"><span id="edit-avatar">${userProfile.avatar}</span></div>
+        <div style="font-size:12px;color:var(--text3);font-family:var(--font-ar);">اضغط لتغيير الصورة</div>
+      </div>
+      <div class="input-group"><label class="input-label">الاسم الكامل</label><input class="form-input" id="ep-name" type="text" value="${userProfile.name}"></div>
+      <div class="input-group"><label class="input-label">البريد الإلكتروني</label><input class="form-input" id="ep-email" type="email" value="${userProfile.email}" dir="ltr"></div>
+      <div class="input-group"><label class="input-label">رقم الجوال</label><input class="form-input" id="ep-phone" type="tel" value="${userProfile.phone}" dir="ltr"></div>
+      <div class="input-group"><label class="input-label">المدينة</label><input class="form-input" id="ep-city" type="text" value="${userProfile.city}"></div>
+      <div class="input-row">
+        <div class="input-group"><label class="input-label">تاريخ الميلاد</label><input class="form-input" id="ep-birth" type="date" value="${userProfile.birthdate}" dir="ltr"></div>
+        <div class="input-group"><label class="input-label">الجنس</label>
+          <select class="form-input" id="ep-gender" style="cursor:pointer;">
+            <option value="male" ${userProfile.gender==='male'?'selected':''}>ذكر</option>
+            <option value="female" ${userProfile.gender==='female'?'selected':''}>أنثى</option>
+          </select>
+        </div>
+      </div>
+      <button onclick="saveProfile()" style="width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000;border:none;padding:14px;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font-ar);margin-top:8px;box-shadow:0 4px 20px rgba(212,175,55,.3);">💾 حفظ التغييرات</button>
+    </div>`;
+  openEditModal();
+}
+function saveProfile() {
+  userProfile.name=document.getElementById('ep-name').value||userProfile.name;
+  userProfile.email=document.getElementById('ep-email').value||userProfile.email;
+  userProfile.phone=document.getElementById('ep-phone').value||userProfile.phone;
+  userProfile.city=document.getElementById('ep-city').value||userProfile.city;
+  userProfile.birthdate=document.getElementById('ep-birth').value||userProfile.birthdate;
+  userProfile.gender=document.getElementById('ep-gender').value;
+  localStorage.setItem('wajdi_profile',JSON.stringify(userProfile));
+  closeEditModal(); renderProfileHero(); showToast('✅ تم حفظ البيانات بنجاح');
+}
+function chooseAvatar() {
+  const avatars=['👤','👨','👩','🧔','👴','🧑','🧕','😎','🤵','💁'];
+  const cur=userProfile.avatar; const idx=avatars.indexOf(cur);
+  userProfile.avatar=avatars[(idx+1)%avatars.length];
+  const el=document.getElementById('edit-avatar'); if(el) el.textContent=userProfile.avatar;
+}
+
+// ---- CHANGE PASSWORD ----
+function openChangePassword() {
+  document.getElementById('edit-content').innerHTML=`
+    <div style="padding:16px 20px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <div style="font-size:18px;font-weight:700;font-family:var(--font-ar);color:var(--text);">تغيير كلمة المرور</div>
+        <button onclick="closeEditModal()" style="width:36px;height:36px;background:var(--bg3);border:none;border-radius:10px;cursor:pointer;font-size:16px;color:var(--text2);">✕</button>
+      </div>
+      <div class="input-group"><label class="input-label">كلمة المرور الحالية</label><input class="form-input" type="password" placeholder="••••••••" dir="ltr" id="pw-old"></div>
+      <div class="input-group"><label class="input-label">كلمة المرور الجديدة</label><input class="form-input" type="password" placeholder="••••••••" dir="ltr" id="pw-new"></div>
+      <div class="input-group"><label class="input-label">تأكيد كلمة المرور</label><input class="form-input" type="password" placeholder="••••••••" dir="ltr" id="pw-confirm"></div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:14px;">
+        <div style="font-size:12px;color:var(--text3);font-family:var(--font-ar);margin-bottom:6px;">🔒 متطلبات كلمة المرور:</div>
+        <div style="font-size:11px;color:var(--text3);font-family:var(--font-ar);line-height:1.8;">• 8 أحرف على الأقل<br>• حرف كبير وحرف صغير<br>• رقم واحد على الأقل</div>
+      </div>
+      <button onclick="changePw()" style="width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000;border:none;padding:14px;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font-ar);">🔑 تغيير كلمة المرور</button>
+    </div>`;
+  openEditModal();
+}
+function changePw() {
+  const nw=document.getElementById('pw-new').value, cf=document.getElementById('pw-confirm').value;
+  if(!nw){showToast('❌ أدخل كلمة المرور الجديدة');return;}
+  if(nw.length<8){showToast('❌ يجب أن تكون 8 أحرف على الأقل');return;}
+  if(nw!==cf){showToast('❌ كلمتا المرور غير متطابقتين');return;}
+  closeEditModal(); showToast('✅ تم تغيير كلمة المرور بنجاح');
+}
+
+// ---- ADDRESSES ----
+function openAddresses() {
+  const renderAddrs = () => {
+    document.getElementById('edit-content').innerHTML=`
+      <div style="padding:16px 20px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <div style="font-size:18px;font-weight:700;font-family:var(--font-ar);color:var(--text);">عناوين الشحن</div>
+          <button onclick="closeEditModal()" style="width:36px;height:36px;background:var(--bg3);border:none;border-radius:10px;cursor:pointer;font-size:16px;color:var(--text2);">✕</button>
+        </div>
+        ${addresses.map(a=>`<div class="addr-card ${a.isDefault?'default':''}">
+          ${a.isDefault?'<div class="addr-default-badge">افتراضي</div>':''}
+          <div style="font-size:13px;font-weight:700;color:var(--text);font-family:var(--font-ar);margin-bottom:4px;">${a.label} — ${a.name}</div>
+          <div style="font-size:12px;color:var(--text2);font-family:var(--font-ar);">${a.city}، ${a.district}، ${a.street}</div>
+          <div style="font-size:11px;color:var(--text3);font-family:var(--font-ar);">${a.phone}</div>
+          <div class="addr-actions">
+            <button class="addr-btn" onclick="editAddress(${a.id})">✏️ تعديل</button>
+            ${!a.isDefault?`<button class="addr-btn" onclick="setDefaultAddr(${a.id})">⭐ جعله افتراضي</button>`:''}
+            ${addresses.length>1&&!a.isDefault?`<button class="addr-btn danger" onclick="deleteAddr(${a.id})">🗑️ حذف</button>`:''}
+          </div>
+        </div>`).join('')}
+        <button onclick="addNewAddress()" style="width:100%;background:var(--surface);border:2px dashed var(--border);border-radius:14px;padding:14px;color:var(--gold);font-family:var(--font-ar);font-size:14px;cursor:pointer;margin-top:4px;">+ إضافة عنوان جديد</button>
+      </div>`;
+  };
+  window._renderAddrs = renderAddrs;
+  renderAddrs(); openEditModal();
+}
+function setDefaultAddr(id) {
+  addresses=addresses.map(a=>({...a,isDefault:a.id===id}));
+  localStorage.setItem('wajdi_addrs',JSON.stringify(addresses));
+  window._renderAddrs&&window._renderAddrs(); showToast('✅ تم تعيين العنوان الافتراضي');
+}
+function deleteAddr(id) {
+  addresses=addresses.filter(a=>a.id!==id);
+  localStorage.setItem('wajdi_addrs',JSON.stringify(addresses));
+  document.getElementById('addr-badge').textContent=addresses.length;
+  window._renderAddrs&&window._renderAddrs(); showToast('🗑️ تم حذف العنوان');
+}
+function addNewAddress() { editAddress(null); }
+function editAddress(id) {
+  const a=addresses.find(x=>x.id===id)||{id:Date.now(),label:'',name:userProfile.name,phone:userProfile.phone,city:'',district:'',street:'',zip:'',isDefault:false};
+  document.getElementById('edit-content').innerHTML=`
+    <div style="padding:16px 20px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+        <button onclick="openAddresses()" style="width:36px;height:36px;background:var(--bg3);border:none;border-radius:10px;cursor:pointer;font-size:16px;color:var(--text2);">←</button>
+        <div style="font-size:18px;font-weight:700;font-family:var(--font-ar);color:var(--text);">${id?'تعديل العنوان':'إضافة عنوان'}</div>
+      </div>
+      <div class="input-group"><label class="input-label">تسمية العنوان</label><input class="form-input" id="a-label" type="text" placeholder="مثل: البيت، العمل..." value="${a.label}"></div>
+      <div class="input-group"><label class="input-label">الاسم الكامل</label><input class="form-input" id="a-name" type="text" value="${a.name}"></div>
+      <div class="input-group"><label class="input-label">رقم الجوال</label><input class="form-input" id="a-phone" type="tel" value="${a.phone}" dir="ltr"></div>
+      <div class="input-group"><label class="input-label">المدينة</label><input class="form-input" id="a-city" type="text" value="${a.city}"></div>
+      <div class="input-row">
+        <div class="input-group"><label class="input-label">الحي</label><input class="form-input" id="a-dist" type="text" value="${a.district}"></div>
+        <div class="input-group"><label class="input-label">الرمز البريدي</label><input class="form-input" id="a-zip" type="text" value="${a.zip}" dir="ltr"></div>
+      </div>
+      <div class="input-group"><label class="input-label">الشارع والرقم</label><input class="form-input" id="a-street" type="text" value="${a.street}"></div>
+      <button onclick="saveAddress(${id||0},${a.id})" style="width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000;border:none;padding:14px;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font-ar);margin-top:8px;">💾 حفظ العنوان</button>
+    </div>`;
+}
+function saveAddress(existingId, newId) {
+  const newA={id:existingId||newId,label:document.getElementById('a-label').value||'عنوان',name:document.getElementById('a-name').value,phone:document.getElementById('a-phone').value,city:document.getElementById('a-city').value,district:document.getElementById('a-dist').value,street:document.getElementById('a-street').value,zip:document.getElementById('a-zip').value,isDefault:false};
+  if(existingId) addresses=addresses.map(a=>a.id===existingId?{...a,...newA}:a);
+  else { if(!addresses.length) newA.isDefault=true; addresses.push(newA); }
+  localStorage.setItem('wajdi_addrs',JSON.stringify(addresses));
+  document.getElementById('addr-badge').textContent=addresses.length;
+  openAddresses(); showToast('✅ تم حفظ العنوان بنجاح');
+}
+
+// ---- PAYMENT METHODS ----
+function openPaymentMethods() {
+  const icons={visa:'💳',mada:'🏦',stcpay:'📱',apple:'🍎',cod:'💵'};
+  const renderPay=()=>{
+    document.getElementById('edit-content').innerHTML=`
+      <div style="padding:16px 20px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <div style="font-size:18px;font-weight:700;font-family:var(--font-ar);color:var(--text);">طرق الدفع</div>
+          <button onclick="closeEditModal()" style="width:36px;height:36px;background:var(--bg3);border:none;border-radius:10px;cursor:pointer;font-size:16px;color:var(--text2);">✕</button>
+        </div>
+        ${paymentMethods.map(pm=>`<div class="addr-card ${pm.isDefault?'default':''}">
+          ${pm.isDefault?'<div class="addr-default-badge">افتراضي</div>':''}
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:28px;">${icons[pm.type]||'💳'}</span>
+            <div><div style="font-size:14px;font-weight:700;color:var(--text);font-family:var(--font-ar);">${pm.type.toUpperCase()} •••• ${pm.last4}</div><div style="font-size:11px;color:var(--text3);">${pm.name} | انتهاء: ${pm.expiry}</div></div>
+          </div>
+          <div class="addr-actions">
+            ${!pm.isDefault?`<button class="addr-btn" onclick="setDefaultPay(${pm.id})">⭐ جعله افتراضي</button>`:''}
+            ${paymentMethods.length>1&&!pm.isDefault?`<button class="addr-btn danger" onclick="deletePay(${pm.id})">🗑️ حذف</button>`:''}
+          </div>
+        </div>`).join('')}
+        <button onclick="addPayMethod()" style="width:100%;background:var(--surface);border:2px dashed var(--border);border-radius:14px;padding:14px;color:var(--gold);font-family:var(--font-ar);font-size:14px;cursor:pointer;margin-top:4px;">+ إضافة طريقة دفع</button>
+      </div>`;
+  };
+  window._renderPay=renderPay; renderPay(); openEditModal();
+}
+function setDefaultPay(id){paymentMethods=paymentMethods.map(p=>({...p,isDefault:p.id===id}));localStorage.setItem('wajdi_payments',JSON.stringify(paymentMethods));window._renderPay&&window._renderPay();showToast('✅ تم تعيين طريقة الدفع الافتراضية');}
+function deletePay(id){paymentMethods=paymentMethods.filter(p=>p.id!==id);localStorage.setItem('wajdi_payments',JSON.stringify(paymentMethods));window._renderPay&&window._renderPay();showToast('🗑️ تم الحذف');}
+function addPayMethod() {
+  document.getElementById('edit-content').innerHTML=`
+    <div style="padding:16px 20px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+        <button onclick="openPaymentMethods()" style="width:36px;height:36px;background:var(--bg3);border:none;border-radius:10px;cursor:pointer;font-size:16px;color:var(--text2);">←</button>
+        <div style="font-size:18px;font-weight:700;font-family:var(--font-ar);color:var(--text);">إضافة بطاقة</div>
+      </div>
+      <div class="input-group"><label class="input-label">رقم البطاقة</label><input class="form-input" id="pm-num" type="text" placeholder="XXXX XXXX XXXX XXXX" dir="ltr" maxlength="19"></div>
+      <div class="input-row">
+        <div class="input-group"><label class="input-label">تاريخ الانتهاء</label><input class="form-input" id="pm-exp" type="text" placeholder="MM/YY" dir="ltr" maxlength="5"></div>
+        <div class="input-group"><label class="input-label">CVV</label><input class="form-input" id="pm-cvv" type="text" placeholder="XXX" dir="ltr" maxlength="3"></div>
+      </div>
+      <div class="input-group"><label class="input-label">الاسم على البطاقة</label><input class="form-input" id="pm-name" type="text" value="${userProfile.name}"></div>
+      <button onclick="saveNewCard()" style="width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000;border:none;padding:14px;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font-ar);margin-top:8px;">+ إضافة البطاقة</button>
+    </div>`;
+}
+function saveNewCard() {
+  const num=document.getElementById('pm-num').value.replace(/\s/g,'');
+  const exp=document.getElementById('pm-exp').value;
+  const name=document.getElementById('pm-name').value;
+  if(num.length<16){showToast('❌ أدخل رقم بطاقة صحيح');return;}
+  if(!exp.match(/^\d{2}\/\d{2}$/)){showToast('❌ تنسيق تاريخ الانتهاء غير صحيح');return;}
+  const type=num.startsWith('4')?'visa':num.startsWith('5')?'mastercard':'mada';
+  paymentMethods.push({id:Date.now(),type,last4:num.slice(-4),name,expiry:exp,isDefault:false});
+  localStorage.setItem('wajdi_payments',JSON.stringify(paymentMethods));
+  openPaymentMethods(); showToast('✅ تمت إضافة البطاقة');
+}
+
+// ---- NOTIFICATIONS ----
+function openNotifications() {
+  const unread=notifications.filter(n=>!n.read).length;
+  const d=document.createElement('div'); d.className='full-layer';
+  d.innerHTML=`<div class="full-layer-header">
+    <button class="back-btn" onclick="this.closest('.full-layer').remove()">←</button>
+    <span style="font-size:18px;font-weight:700;font-family:var(--font-ar);color:var(--text);">الإشعارات</span>
+    <button onclick="markAllRead(this)" style="margin-right:auto;background:none;border:none;color:var(--gold);font-size:12px;cursor:pointer;font-family:var(--font-ar);">قراءة الكل</button>
+  </div>
+  <div id="notif-list">${renderNotifList()}</div>`;
+  document.body.appendChild(d);
+}
+function renderNotifList() {
+  return notifications.map(n=>`<div class="notif-item" onclick="readNotif(${n.id},this)">
+    <div class="notif-dot ${n.read?'read':''}"></div>
+    <div style="flex:1;"><div style="font-size:13px;font-weight:${n.read?'400':'700'};color:var(--text);font-family:var(--font-ar);">${n.icon} ${n.title}</div>
+    <div style="font-size:12px;color:var(--text2);margin-top:2px;font-family:var(--font-ar);">${n.body}</div>
+    <div style="font-size:10px;color:var(--text3);margin-top:4px;">${n.time}</div></div>
+  </div>`).join('');
+}
+function readNotif(id, el) {
+  notifications=notifications.map(n=>n.id===id?{...n,read:true}:n);
+  const dot=el.querySelector('.notif-dot'); if(dot){dot.classList.add('read');}
+  const unread=notifications.filter(n=>!n.read).length;
+  document.getElementById('notif-badge').textContent=unread||0;
+}
+function markAllRead(btn) {
+  notifications=notifications.map(n=>({...n,read:true}));
+  document.getElementById('notif-badge').textContent='0';
+  const list=document.getElementById('notif-list'); if(list) list.innerHTML=renderNotifList();
+  showToast('✅ تم تعليم الكل كمقروء');
+}
+
+// ---- LANGUAGE ----
+function openLanguage() {
+  const langs=[{code:'ar',label:'العربية',flag:'🇸🇦'},{code:'en',label:'English',flag:'🇺🇸'},{code:'fr',label:'Français',flag:'🇫🇷'}];
+  let sel=localStorage.getItem('wajdi_lang')||'ar';
+  document.getElementById('edit-content').innerHTML=`
+    <div style="padding:16px 20px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <div style="font-size:18px;font-weight:700;font-family:var(--font-ar);color:var(--text);">اللغة والمنطقة</div>
+        <button onclick="closeEditModal()" style="width:36px;height:36px;background:var(--bg3);border:none;border-radius:10px;cursor:pointer;font-size:16px;color:var(--text2);">✕</button>
+      </div>
+      ${langs.map(l=>`<div onclick="setLang('${l.code}','${l.label}',this)" style="background:var(--surface);border:2px solid ${sel===l.code?'var(--gold)':'var(--border)'};border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:10px;cursor:pointer;">
+        <span style="font-size:28px;">${l.flag}</span>
+        <span style="font-size:15px;font-weight:600;color:var(--text);font-family:var(--font-ar);">${l.label}</span>
+        ${sel===l.code?'<span style="margin-right:auto;color:var(--gold);">✓</span>':''}
+      </div>`).join('')}
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:8px;">
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;font-family:var(--font-ar);">المنطقة الزمنية</div>
+        <div style="font-size:13px;color:var(--text2);font-family:var(--font-ar);">🕐 توقيت الرياض (UTC+3)</div>
+      </div>
+    </div>`;
+  openEditModal();
+}
+function setLang(code, label, el) {
+  localStorage.setItem('wajdi_lang',code);
+  document.getElementById('lang-display').textContent=label;
+  closeEditModal(); showToast('✅ تم تغيير اللغة إلى '+label);
+}
+
+// ---- PRIVACY ----
+function openPrivacy() {
+  document.getElementById('edit-content').innerHTML=`
+    <div style="padding:16px 20px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <div style="font-size:18px;font-weight:700;font-family:var(--font-ar);color:var(--text);">الخصوصية والأمان</div>
+        <button onclick="closeEditModal()" style="width:36px;height:36px;background:var(--bg3);border:none;border-radius:10px;cursor:pointer;font-size:16px;color:var(--text2);">✕</button>
+      </div>
+      ${[['مشاركة بيانات التصفح','on'],['الإشعارات التسويقية','on'],['مشاركة موقعي','off'],['السماح بالتحليلات','on']].map(([l,s])=>`<div class="menu-item" style="margin-bottom:8px;"><span class="menu-item-label">${l}</span><div class="toggle-switch ${s}" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div></div>`).join('')}
+      <button onclick="showToast('🚧 سيتم حذف حسابك خلال 30 يوم')" style="width:100%;background:rgba(231,76,60,.1);color:var(--red);border:1px solid rgba(231,76,60,.3);padding:14px;border-radius:14px;font-size:14px;cursor:pointer;font-family:var(--font-ar);margin-top:12px;">🗑️ حذف الحساب</button>
+    </div>`;
+  openEditModal();
+}
+
+// ---- SUPPORT ----
+function openSupport() {
+  document.getElementById('edit-content').innerHTML=`
+    <div style="padding:16px 20px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <div style="font-size:18px;font-weight:700;font-family:var(--font-ar);color:var(--text);">الدعم والمساعدة</div>
+        <button onclick="closeEditModal()" style="width:36px;height:36px;background:var(--bg3);border:none;border-radius:10px;cursor:pointer;font-size:16px;color:var(--text2);">✕</button>
+      </div>
+      ${[['💬','الدعم الفوري عبر الواتساب','تحدث معنا الآن'],['📞','الاتصال بخدمة العملاء','+966 11 XXX XXXX'],['📧','البريد الإلكتروني','support@wajdi-watches.com'],['📋','الأسئلة الشائعة','استعرض أكثر الأسئلة شيوعاً'],['⭐','قيّم التطبيق','مشاركة تقييمك على المتجر']].map(([icon,title,sub])=>`<div class="menu-item" onclick="showToast('${title}')" style="margin-bottom:8px;"><span class="menu-item-icon">${icon}</span><div><div class="menu-item-label" style="flex:none;">${title}</div><div style="font-size:11px;color:var(--text3);font-family:var(--font-ar);">${sub}</div></div><span class="menu-item-arrow">‹</span></div>`).join('')}
+    </div>`;
+  openEditModal();
+}
+
+// ---- LOGOUT ----
+function confirmLogout() {
+  document.getElementById('edit-content').innerHTML=`
+    <div style="padding:30px 20px;text-align:center;">
+      <div style="font-size:64px;margin-bottom:16px;">🚪</div>
+      <div style="font-size:18px;font-weight:700;color:var(--text);margin-bottom:8px;font-family:var(--font-ar);">تسجيل الخروج</div>
+      <div style="font-size:14px;color:var(--text2);margin-bottom:24px;font-family:var(--font-ar);">هل أنت متأكد من تسجيل الخروج؟</div>
+      <div style="display:flex;gap:10px;">
+        <button onclick="closeEditModal()" style="flex:1;background:var(--surface);border:1px solid var(--border);padding:14px;border-radius:14px;font-size:14px;cursor:pointer;font-family:var(--font-ar);color:var(--text);">إلغاء</button>
+        <button onclick="doLogout()" style="flex:1;background:rgba(231,76,60,.15);color:var(--red);border:1px solid rgba(231,76,60,.3);padding:14px;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-ar);">تسجيل الخروج</button>
+      </div>
+    </div>`;
+  openEditModal();
+}
+function doLogout() { closeEditModal(); showToast('👋 تم تسجيل الخروج بنجاح'); }
+
+// ---- MODAL HELPERS ----
+function openEditModal() {
+  document.getElementById('edit-overlay').classList.add('open');
+  document.getElementById('edit-sheet').classList.add('open');
+}
+function closeEditModal() {
+  document.getElementById('edit-overlay').classList.remove('open');
+  document.getElementById('edit-sheet').classList.remove('open');
+}
+
+// ========================= CHECKOUT =========================
+function openCheckout() {
+  if(!cart.length){showToast('❌ السلة فارغة');return;}
+  currentCheckoutStep=1; renderCheckoutStep(1);
+  document.getElementById('checkout-modal').classList.add('open');
+}
+function closeCheckout() { document.getElementById('checkout-modal').classList.remove('open'); }
+function cartSubTotal() { return cart.reduce((s,ci)=>{const p=PRODUCTS.find(x=>x.id===ci.id);return s+(p?p.price*ci.qty:0);},0); }
+function cartSummaryHTML() {
+  const sub=cartSubTotal(),tax=Math.round(sub*.1),ship=selectedShipping==='express'?150:selectedShipping==='standard'?75:35,tot=sub+tax+ship;
+  return `<div class="summary-row"><span class="label">الفرعي</span><span class="val">${fmtP(sub)}</span></div>
+    <div class="summary-row"><span class="label">الضريبة 10%</span><span class="val">${fmtP(tax)}</span></div>
+    <div class="summary-row"><span class="label">الشحن</span><span class="val">${fmtP(ship)}</span></div>
+    <div class="summary-divider"></div>
+    <div class="summary-row summary-total"><span class="label">الإجمالي</span><span class="val">${fmtP(tot)}</span></div>`;
+}
+function renderCheckoutStep(step) {
+  const steps=[{l:'العنوان'},{l:'الشحن'},{l:'الدفع'}];
+  const stepsHTML=`<div class="steps-indicator">${steps.map((s,i)=>`<div class="step-dot ${i<step-1?'done':i===step-1?'active':'pending'}">${i<step-1?'✓':i+1}</div>${i<steps.length-1?`<div class="step-line ${i<step-1?'done':''}"></div>`:''}`).join('')}</div>
+    <div class="step-label-row">${steps.map((s,i)=>`<span class="step-label ${i===step-1?'active':''}">${s.l}</span>`).join('')}</div>`;
+  let body='';
+  const defAddr=addresses.find(a=>a.isDefault)||addresses[0];
+  if(step===1){
+    body=`<div class="checkout-section">
+      <div class="checkout-section-title">عنوان التسليم</div>
+      ${addresses.map(a=>`<div class="shipping-option ${a.isDefault?'selected':''}" onclick="selectAddr(${a.id})">
+        <div class="ship-radio ${a.isDefault?'selected':''}">✓</div>
+        <div class="ship-info"><div class="ship-name">${a.label} — ${a.city}</div><div class="ship-time">${a.district}، ${a.street}</div></div>
+      </div>`).join('')}
+      <button onclick="addNewAddress();closeCheckout();" style="width:100%;background:var(--surface);border:1px dashed var(--border);border-radius:12px;padding:12px;color:var(--gold);font-family:var(--font-ar);font-size:13px;cursor:pointer;margin-bottom:16px;">+ إضافة عنوان جديد</button>
+    </div>`;
+  } else if(step===2){
+    body=`<div class="checkout-section">
+      <div class="checkout-section-title">طريقة الشحن</div>
+      <div class="shipping-option ${selectedShipping==='express'?'selected':''}" onclick="selShip('express')"><div class="ship-radio ${selectedShipping==='express'?'selected':''}">✓</div><div class="ship-info"><div class="ship-name">🚀 توصيل سريع</div><div class="ship-time">24-48 ساعة</div></div><div class="ship-price">150 ر.س</div></div>
+      <div class="shipping-option ${selectedShipping==='standard'?'selected':''}" onclick="selShip('standard')"><div class="ship-radio ${selectedShipping==='standard'?'selected':''}">✓</div><div class="ship-info"><div class="ship-name">📦 شحن عادي</div><div class="ship-time">3-5 أيام</div></div><div class="ship-price">75 ر.س</div></div>
+      <div class="shipping-option ${selectedShipping==='economy'?'selected':''}" onclick="selShip('economy')"><div class="ship-radio ${selectedShipping==='economy'?'selected':''}">✓</div><div class="ship-info"><div class="ship-name">💰 اقتصادي</div><div class="ship-time">7-10 أيام</div></div><div class="ship-price">35 ر.س</div></div>
+      <div class="cart-summary" style="margin:12px 0 0;">${cartSummaryHTML()}</div>
+    </div>`;
+  } else {
+    body=`<div class="checkout-section">
+      <div class="checkout-section-title">طريقة الدفع</div>
+      <div class="pay-option ${selectedPayment==='card'?'selected':''}" onclick="selPay('card')"><span class="pay-icon">💳</span><div><div class="pay-name">بطاقة بنكية</div><div class="pay-desc">Visa / Mada / MasterCard</div></div></div>
+      <div class="pay-option ${selectedPayment==='stcpay'?'selected':''}" onclick="selPay('stcpay')"><span class="pay-icon">📱</span><div><div class="pay-name">STC Pay</div><div class="pay-desc">محفظة STC</div></div></div>
+      <div class="pay-option ${selectedPayment==='apple'?'selected':''}" onclick="selPay('apple')"><span class="pay-icon">🍎</span><div><div class="pay-name">Apple Pay</div><div class="pay-desc">الدفع السريع</div></div></div>
+      <div class="pay-option ${selectedPayment==='cod'?'selected':''}" onclick="selPay('cod')"><span class="pay-icon">💵</span><div><div class="pay-name">عند الاستلام</div><div class="pay-desc">ادفع عند وصول طلبك</div></div></div>
+      ${selectedPayment==='card'?`<div style="margin-top:12px;"><div class="input-group"><label class="input-label">رقم البطاقة</label><input class="form-input" type="text" placeholder="XXXX XXXX XXXX XXXX" dir="ltr"></div><div class="input-row"><div class="input-group"><label class="input-label">الانتهاء</label><input class="form-input" type="text" placeholder="MM/YY" dir="ltr"></div><div class="input-group"><label class="input-label">CVV</label><input class="form-input" type="text" placeholder="XXX" dir="ltr"></div></div></div>`:''}
+      <div class="cart-summary" style="margin:12px 0 0;">${cartSummaryHTML()}</div>
+    </div>`;
+  }
+  document.getElementById('checkout-content').innerHTML=`${stepsHTML}${body}<button class="btn-next" onclick="nextStep()">${step===3?'✅ تأكيد الطلب':'التالي ←'}</button>`;
+}
+function selectAddr(id){addresses=addresses.map(a=>({...a,isDefault:a.id===id}));renderCheckoutStep(1);}
+function selShip(t){selectedShipping=t;renderCheckoutStep(2);}
+function selPay(t){selectedPayment=t;renderCheckoutStep(3);}
+function nextStep(){if(currentCheckoutStep<3){currentCheckoutStep++;renderCheckoutStep(currentCheckoutStep);}else{closeCheckout();showOrderSuccess();}}
+
+function showOrderSuccess() {
+  const sub=cartSubTotal(),tax=Math.round(sub*.1),ship=selectedShipping==='express'?150:selectedShipping==='standard'?75:35,tot=sub+tax+ship;
+  const num='WD-2025-'+Math.floor(1000+Math.random()*9000);
+  const days=selectedShipping==='express'?2:selectedShipping==='standard'?5:10;
+  const d=new Date(); d.setDate(d.getDate()+days);
+  const ds=d.toLocaleDateString('ar-SA',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const el=document.createElement('div');
+  el.style.cssText='position:fixed;inset:0;z-index:700;background:var(--bg2);overflow-y:auto;max-width:430px;margin:0 auto;padding:20px;';
+  el.innerHTML=`<div class="success-screen">
+    <div class="success-ring">✅</div>
+    <div class="success-title">تم تأكيد طلبك! 🎉</div>
+    <div class="success-sub">سنتواصل معك قريباً لتأكيد التوصيل</div>
+    <div class="order-ref-card"><div class="order-ref-label">رقم الطلب المرجعي</div><div class="order-ref-num">${num}</div></div>
+    <div class="delivery-estimate"><span class="delivery-icon">🚚</span><div class="delivery-info"><div class="d-label">التاريخ المتوقع للتسليم</div><div class="d-date">${ds}</div></div></div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:20px;">
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;font-family:var(--font-ar);">ملخص الطلب</div>
+      ${cart.slice(0,3).map(ci=>{const p=PRODUCTS.find(x=>x.id===ci.id);return p?`<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;"><span style="font-size:24px;">${p.emoji}</span><div style="flex:1;"><div style="font-size:12px;color:var(--text);font-family:var(--font-ar);">${p.name}</div></div><span style="font-size:12px;color:var(--gold);font-family:var(--font-d);">${fmtP(p.price*ci.qty)}</span></div>`:'';}).join('')}
+      <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px;display:flex;justify-content:space-between;"><span style="font-size:14px;font-weight:700;color:var(--text);font-family:var(--font-ar);">الإجمالي</span><span style="font-size:16px;font-weight:700;color:var(--gold);font-family:var(--font-d);">${fmtP(tot)}</span></div>
+    </div>
+    <div class="success-btns">
+      <button class="btn-track" onclick="this.closest('div[style]').remove();showScreen('orders')">📦 تتبع الطلب</button>
+      <button class="btn-home-return" onclick="this.closest('div[style]').remove();cart=[];saveCart();updateBadge();showScreen('home')">العودة للرئيسية</button>
+    </div>
+  </div>`;
+  document.body.appendChild(el);
+  cart=[]; saveCart(); updateBadge();
+}
+
+// ========================= ORDERS =========================
+const statusMap={delivered:'مُسلَّم',processing:'قيد التجهيز',shipping:'قيد الشحن',cancelled:'مُلغى'};
+const statusClass={delivered:'status-delivered',processing:'status-processing',shipping:'status-shipping',cancelled:'status-cancelled'};
+function renderOrders(filter='all') {
+  const list=document.getElementById('orders-list'); if(!list) return;
+  const filtered=filter==='all'?ORDERS_DATA:ORDERS_DATA.filter(o=>o.status===filter);
+  list.innerHTML=filtered.map(o=>`<div class="order-card" onclick="showOrderDetail('${o.id}')">
+    <div class="order-header"><span class="order-num">${o.id}</span><span class="order-status ${statusClass[o.status]}">${statusMap[o.status]}</span></div>
+    <div style="font-size:11px;color:var(--text3);margin-bottom:10px;font-family:var(--font-ar);">${o.date}</div>
+    <div class="order-items-row">${o.items.filter(Boolean).map(p=>`<div class="order-item-img">${p.emoji}</div>`).join('')}</div>
+    <div class="order-footer"><span class="order-total">${fmtP(o.total)}</span><span class="order-action">عرض التفاصيل ‹</span></div>
+  </div>`).join('')||`<div style="text-align:center;padding:40px;color:var(--text3);font-family:var(--font-ar);">لا توجد طلبات</div>`;
+}
+function filterOrders(f,el){document.querySelectorAll('.order-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderOrders(f);}
+function showOrderDetail(oid) {
+  const o=ORDERS_DATA.find(x=>x.id===oid); if(!o) return;
+  const tl={delivered:[{s:'done',t:'تم الطلب',d:'تأكيد الطلب'},{s:'done',t:'قيد التجهيز',d:'جاري التجهيز'},{s:'done',t:'تم الشحن',d:'في الطريق إليك'},{s:'done',t:'تم التسليم',d:'استلمت طلبك بنجاح'}],
+    shipping:[{s:'done',t:'تم الطلب',d:'تأكيد الطلب'},{s:'done',t:'قيد التجهيز',d:'جاري التجهيز'},{s:'active',t:'تم الشحن',d:'في الطريق إليك'},{s:'pending',t:'التسليم',d:''}],
+    processing:[{s:'done',t:'تم الطلب',d:'تأكيد الطلب'},{s:'active',t:'قيد التجهيز',d:'جاري التجهيز'},{s:'pending',t:'الشحن',d:''},{s:'pending',t:'التسليم',d:''}]};
+  const steps=tl[o.status]||tl.processing;
+  const d=document.createElement('div'); d.className='full-layer';
+  d.innerHTML=`<div class="full-layer-header"><button class="back-btn" onclick="this.closest('.full-layer').remove()">←</button><span style="font-size:18px;font-weight:700;font-family:var(--font-ar);color:var(--text);">تفاصيل الطلب</span></div>
+  <div style="margin:0 16px 16px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:14px;font-weight:700;color:var(--gold);font-family:var(--font-d);">${o.id}</span><span class="order-status ${statusClass[o.status]}">${statusMap[o.status]}</span></div><div style="font-size:12px;color:var(--text3);margin-top:4px;font-family:var(--font-ar);">${o.date}</div></div>
+  <div class="track-timeline"><div class="track-title">🗺️ تتبع الشحنة</div>${steps.map(s=>`<div class="timeline-item"><div class="timeline-dot ${s.s}"></div><div><div class="tl-title" style="color:${s.s==='pending'?'var(--text3)':'var(--text)'}">${s.t}</div>${s.d?`<div class="tl-time">${s.d}</div>`:''}</div></div>`).join('')}</div>
+  <div style="margin:0 16px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;"><div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;font-family:var(--font-ar);">المنتجات</div>
+  ${o.items.filter(Boolean).map(p=>`<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;"><div style="width:50px;height:50px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:26px;">${p.emoji}</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text);font-family:var(--font-ar);">${p.name}</div><div style="font-size:11px;color:var(--text3);">${p.brand}</div></div><div style="font-size:13px;font-weight:700;color:var(--gold);font-family:var(--font-d);">${fmtP(p.price)}</div></div>`).join('')}
+  <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:10px;display:flex;justify-content:space-between;"><span style="font-size:15px;font-weight:700;color:var(--text);font-family:var(--font-ar);">الإجمالي</span><span style="font-size:17px;font-weight:700;color:var(--gold);font-family:var(--font-d);">${fmtP(o.total)}</span></div></div>`;
+  document.body.appendChild(d);
+}
+
+// ========================= SEARCH =========================
+function doSearch(q) {
+  const c=document.getElementById('search-results'); if(!c) return;
+  if(!q.trim()){c.innerHTML=`<div class="search-hint"><div class="search-hint-icon">🔍</div><div>ابحث عن ساعتك المثالية</div></div>`;return;}
+  const r=PRODUCTS.filter(p=>p.name.includes(q)||p.brand.toLowerCase().includes(q.toLowerCase())||p.cat.includes(q)||p.sub.includes(q)||p.description.includes(q));
+  c.innerHTML=r.length?`<div style="font-size:12px;color:var(--text3);margin-bottom:12px;font-family:var(--font-ar);">${r.length} نتيجة</div><div class="products-grid" style="padding:0;">${r.map(p=>cardV(p)).join('')}</div>`:
+    `<div class="search-hint"><div class="search-hint-icon">😕</div><div style="color:var(--text2);">لم يُعثر على نتائج لـ "${q}"</div></div>`;
+}
+function quickSearch(q){document.getElementById('main-search').value=q;doSearch(q);}
+function handleSearch(q){if(q.length>1){showScreen('search');quickSearch(q);}}
+
+// ========================= UTILS =========================
+function fmtP(n){return n.toLocaleString('ar-SA')+' ر.س';}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+function toggleSwitch(el){el.classList.toggle('on');}
+function shareProduct(n){if(navigator.share)navigator.share({title:n,text:`شاهد ${n} في متجر وجدي الدُبعي`,url:window.location.href});else showToast('📤 تم نسخ الرابط!');}
+</script>
+</body>
+</html>
